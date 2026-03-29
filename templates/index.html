@@ -3,1079 +3,1115 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Client Hunter — Steve Kaks</title>
+<title>Client Hunter v2 — Steve Kaks</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
-/* ─── RESET & BASE ─────────────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0d1117;
-  --surface:#161b22;
-  --surface2:#1c2128;
-  --border:#30363d;
-  --text:#e6edf3;
-  --muted:#8b949e;
-  --accent:#58a6ff;
-  --green:#3fb950;
-  --orange:#d29922;
-  --red:#f85149;
-  --purple:#bc8cff;
-  --pink:#ff7b72;
-  --radius:10px;
-  --shadow:0 4px 24px rgba(0,0,0,.4);
+  --bg:#0d1117;--surface:#161b22;--surface2:#1c2128;--surface3:#21262d;
+  --border:#30363d;--text:#e6edf3;--muted:#8b949e;--muted2:#6e7681;
+  --accent:#58a6ff;--green:#3fb950;--orange:#d29922;--red:#f85149;
+  --purple:#bc8cff;--pink:#ff7b72;--yellow:#e3b341;
+  --radius:10px;--shadow:0 8px 32px rgba(0,0,0,.5);
 }
 html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 button{font-family:inherit;cursor:pointer}
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:var(--surface)}
+select,input,textarea{font-family:inherit}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 
-/* ─── LAYOUT ───────────────────────────────────────────────────────── */
-.app{display:grid;grid-template-columns:240px 1fr;grid-template-rows:auto 1fr;min-height:100vh}
+/* ── LAYOUT ── */
+.app{display:grid;grid-template-columns:220px 1fr;grid-template-rows:58px 1fr;min-height:100vh}
 
-/* ─── TOPBAR ───────────────────────────────────────────────────────── */
+/* ── TOPBAR ── */
 .topbar{
-  grid-column:1/-1;
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
-  padding:0 24px;
-  display:flex;align-items:center;gap:16px;
-  height:58px;
-  position:sticky;top:0;z-index:100;
+  grid-column:1/-1;background:var(--surface);border-bottom:1px solid var(--border);
+  padding:0 20px;display:flex;align-items:center;gap:14px;
+  position:sticky;top:0;z-index:200;
 }
-.logo{font-size:18px;font-weight:800;color:var(--accent);display:flex;align-items:center;gap:8px}
-.logo i{font-size:20px}
-.topbar-spacer{flex:1}
-.topbar-profile{display:flex;align-items:center;gap:10px}
-.topbar-profile .avatar{
-  width:36px;height:36px;border-radius:50%;
-  background:linear-gradient(135deg,var(--accent),var(--purple));
-  display:flex;align-items:center;justify-content:center;
-  font-weight:700;font-size:14px;color:#fff;flex-shrink:0;
+.logo{font-size:17px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:8px;letter-spacing:-.3px}
+.logo .crosshair{color:var(--accent)}
+.logo sub{font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;vertical-align:super;margin-left:2px}
+.topbar-center{flex:1;display:flex;justify-content:center}
+.caps-bar{display:flex;gap:6px}
+.cap-pill{
+  display:flex;align-items:center;gap:5px;border-radius:20px;
+  padding:4px 10px;font-size:11px;font-weight:600;border:1px solid;
 }
-.topbar-profile .pname{font-weight:600;font-size:13px}
-.topbar-profile .ploc{font-size:11px;color:var(--muted)}
+.cap-pill.on{ background:rgba(63,185,80,.1); color:var(--green);  border-color:rgba(63,185,80,.3)}
+.cap-pill.off{background:rgba(139,148,158,.07);color:var(--muted); border-color:var(--border)}
+.cap-pill .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.topbar-profile{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#0d1117;flex-shrink:0}
+.pname{font-weight:700;font-size:13px;line-height:1.2}
+.ploc{font-size:11px;color:var(--muted)}
 
-/* scan badge */
-.scan-badge{
-  display:flex;align-items:center;gap:6px;
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:20px;padding:5px 12px;font-size:12px;color:var(--muted);
-}
-.scan-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.scan-badge.scanning .dot{background:var(--orange);animation:spin-pulse 1s linear infinite}
-@keyframes spin-pulse{0%{opacity:1}50%{opacity:.2}100%{opacity:1}}
-
-/* ─── SIDEBAR ───────────────────────────────────────────────────────── */
+/* ── SIDEBAR ── */
 .sidebar{
   background:var(--surface);border-right:1px solid var(--border);
-  padding:20px 12px;display:flex;flex-direction:column;gap:4px;
-  overflow-y:auto;
+  padding:16px 10px;display:flex;flex-direction:column;gap:2px;
+  overflow-y:auto;position:sticky;top:58px;height:calc(100vh - 58px);
 }
-.sidebar-section{
-  font-size:10px;font-weight:700;text-transform:uppercase;
-  color:var(--muted);letter-spacing:.08em;padding:12px 8px 4px;
-}
+.sec-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted2);padding:12px 8px 4px}
 .nav-btn{
-  display:flex;align-items:center;gap:10px;
-  padding:9px 12px;border-radius:8px;border:none;
-  background:transparent;color:var(--muted);
-  width:100%;text-align:left;font-size:13px;font-weight:500;
-  transition:all .15s;
+  display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:8px;
+  border:none;background:transparent;color:var(--muted);width:100%;
+  text-align:left;font-size:13px;font-weight:500;transition:all .15s;
 }
 .nav-btn:hover{background:var(--surface2);color:var(--text)}
-.nav-btn.active{background:rgba(88,166,255,.12);color:var(--accent)}
-.nav-btn i{width:16px;text-align:center;font-size:14px}
-.nav-badge{
-  margin-left:auto;background:var(--red);color:#fff;
-  border-radius:10px;padding:1px 7px;font-size:10px;font-weight:700;
-  min-width:18px;text-align:center;
-}
-.nav-badge.green{background:var(--green)}
-.nav-badge.orange{background:var(--orange)}
+.nav-btn.active{background:rgba(88,166,255,.1);color:var(--accent);font-weight:600}
+.nav-btn i{width:16px;text-align:center;font-size:13px;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:700;min-width:18px;text-align:center}
 .sidebar-divider{height:1px;background:var(--border);margin:8px 0}
-
-/* ─── MAIN ─────────────────────────────────────────────────────────── */
-.main{overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:24px}
-
-/* ─── PAGE HEADER ──────────────────────────────────────────────────── */
-.page-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.page-title{font-size:22px;font-weight:800;display:flex;align-items:center;gap:10px}
-.page-title .subtitle{font-size:13px;font-weight:400;color:var(--muted);margin-top:2px}
-.page-actions{display:flex;gap:8px;flex-wrap:wrap}
-
-/* ─── BUTTONS ──────────────────────────────────────────────────────── */
-.btn{
-  display:inline-flex;align-items:center;gap:7px;
-  padding:8px 16px;border-radius:8px;border:none;
-  font-size:13px;font-weight:600;transition:all .15s;
+.scan-status{
+  margin-top:auto;background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;padding:10px;font-size:11px;
 }
-.btn-primary{background:var(--accent);color:#0d1117}
-.btn-primary:hover{background:#79b8ff}
-.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
-.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
-.btn-green{background:var(--green);color:#0d1117}
-.btn-green:hover{background:#56d364}
-.btn-sm{padding:5px 11px;font-size:12px}
-.btn-icon{padding:7px;border-radius:7px;font-size:13px}
+.scan-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:4px}
+.scan-dot.scanning{background:var(--orange);animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-/* ─── STAT CARDS ───────────────────────────────────────────────────── */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px}
-.stat-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  padding:18px 16px;display:flex;flex-direction:column;gap:6px;
-  transition:border-color .2s;
-}
+/* ── MAIN ── */
+.main{overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:20px}
+
+/* ── PAGE SECTIONS ── */
+.page-section{display:none;flex-direction:column;gap:20px}
+.page-section.active{display:flex}
+
+/* ── PAGE HEADER ── */
+.ph{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ph-title{font-size:20px;font-weight:800;display:flex;align-items:center;gap:10px}
+.ph-sub{font-size:12px;font-weight:400;color:var(--muted);margin-top:2px}
+.ph-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:8px;border:none;font-size:12px;font-weight:600;transition:all .15s;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#0d1117}.btn-primary:hover{filter:brightness(1.1)}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.btn-green{background:var(--green);color:#0d1117}.btn-green:hover{filter:brightness(1.1)}
+.btn-purple{background:rgba(188,140,255,.15);color:var(--purple);border:1px solid rgba(188,140,255,.3)}.btn-purple:hover{background:rgba(188,140,255,.25)}
+.btn-orange{background:rgba(210,153,34,.15);color:var(--orange);border:1px solid rgba(210,153,34,.3)}.btn-orange:hover{background:rgba(210,153,34,.25)}
+.btn-red{background:rgba(248,81,73,.12);color:var(--red);border:1px solid rgba(248,81,73,.25)}.btn-red:hover{background:rgba(248,81,73,.2)}
+.btn-sm{padding:5px 10px;font-size:11px}
+.btn-xs{padding:3px 8px;font-size:10px}
+
+/* ── STAT CARDS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:12px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 14px;transition:border-color .2s}
 .stat-card:hover{border-color:var(--accent)}
-.stat-card .s-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.stat-card .s-value{font-size:28px;font-weight:800;line-height:1}
-.stat-card .s-sub{font-size:11px;color:var(--muted)}
-.s-new{color:var(--accent)}
-.s-drafted{color:var(--orange)}
-.s-sent{color:var(--purple)}
-.s-converted{color:var(--green)}
-.s-hot{color:var(--red)}
+.s-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px}
+.s-value{font-size:26px;font-weight:900;line-height:1;letter-spacing:-.5px}
+.s-sub{font-size:10px;color:var(--muted);margin-top:4px}
+.col-accent{color:var(--accent)}.col-green{color:var(--green)}.col-orange{color:var(--orange)}.col-purple{color:var(--purple)}.col-red{color:var(--red)}.col-yellow{color:var(--yellow)}
 
-/* ─── FILTER BAR ───────────────────────────────────────────────────── */
-.filter-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.filter-tabs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:4px}
-.filter-tab{
-  padding:6px 14px;border-radius:6px;border:none;
-  background:transparent;color:var(--muted);font-size:12px;font-weight:600;
-  cursor:pointer;transition:all .15s;
-}
+/* ── SIGNAL CARDS ── */
+.filter-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.filter-tabs{display:flex;gap:3px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:3px;flex-shrink:0}
+.filter-tab{padding:5px 12px;border-radius:6px;border:none;background:transparent;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s}
 .filter-tab.active{background:var(--accent);color:#0d1117}
 .filter-tab:hover:not(.active){color:var(--text)}
-.search-box{
-  flex:1;min-width:180px;
-  background:var(--surface);border:1px solid var(--border);border-radius:8px;
-  padding:7px 12px 7px 34px;color:var(--text);font-size:13px;outline:none;
-  position:relative;
-}
-.search-wrap{position:relative;flex:1;min-width:180px}
-.search-wrap i{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none}
-.search-wrap input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 12px 7px 32px;color:var(--text);font-size:13px;outline:none;transition:border-color .15s}
+.search-wrap{position:relative;flex:1;min-width:150px}
+.search-wrap i{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none}
+.search-wrap input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 10px 7px 28px;color:var(--text);font-size:12px;outline:none;transition:border-color .15s}
 .search-wrap input:focus{border-color:var(--accent)}
-.sort-select{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-size:12px;outline:none;cursor:pointer}
+.sort-select,.tag-select,.source-select{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 8px;color:var(--text);font-size:11px;outline:none;cursor:pointer}
 
-/* ─── SIGNAL CARDS ─────────────────────────────────────────────────── */
-.signals-list{display:flex;flex-direction:column;gap:12px}
-.signal-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  padding:18px 20px;transition:all .2s;cursor:pointer;
-  position:relative;overflow:hidden;
-}
-.signal-card::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
-  background:var(--border);transition:background .2s;
-}
-.signal-card.urgency-high::before{background:var(--red)}
-.signal-card.urgency-med::before{background:var(--orange)}
-.signal-card.urgency-low::before{background:var(--green)}
-.signal-card:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:var(--shadow)}
-.signal-card.expanded{border-color:var(--accent)}
+.signals-list{display:flex;flex-direction:column;gap:10px}
 
-.sc-header{display:flex;align-items:flex-start;gap:12px}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .18s}
+.sc:hover{border-color:rgba(88,166,255,.5);box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.sc.expanded{border-color:var(--accent)}
+.sc-stripe{height:3px;width:100%}
+.sc-stripe.h-hot{background:linear-gradient(90deg,var(--red),var(--orange))}
+.sc-stripe.h-warm{background:var(--orange)}
+.sc-stripe.h-cool{background:var(--green)}
+.sc-top{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer}
 .sc-meta{flex:1;min-width:0}
-.sc-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:5px;line-height:1.4}
-.sc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
-.tag{display:inline-flex;align-items:center;gap:4px;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600}
-.tag-sub{background:rgba(88,166,255,.15);color:var(--accent);border:1px solid rgba(88,166,255,.3)}
-.tag-svc{background:rgba(188,140,255,.15);color:var(--purple);border:1px solid rgba(188,140,255,.3)}
-.tag-price{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.3)}
-.tag-demo{background:rgba(139,148,158,.1);color:var(--muted);border:1px solid var(--border)}
-.tag-new{background:rgba(88,166,255,.15);color:var(--accent)}
-.tag-drafted{background:rgba(210,153,34,.15);color:var(--orange)}
-.tag-sent{background:rgba(188,140,255,.15);color:var(--purple)}
-.tag-converted{background:rgba(63,185,80,.15);color:var(--green)}
-.tag-ignored{background:rgba(139,148,158,.1);color:var(--muted)}
-
-.sc-time{font-size:11px;color:var(--muted)}
-.urgency-pill{
-  flex-shrink:0;border-radius:20px;padding:4px 10px;
-  font-size:11px;font-weight:700;
-}
-.urgency-high .urgency-pill{background:rgba(248,81,73,.15);color:var(--red)}
-.urgency-med  .urgency-pill{background:rgba(210,153,34,.15);color:var(--orange)}
-.urgency-low  .urgency-pill{background:rgba(63,185,80,.15);color:var(--green)}
+.sc-title{font-size:13px;font-weight:700;line-height:1.4;margin-bottom:6px;color:var(--text)}
+.sc-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:5px}
+.tag{display:inline-flex;align-items:center;gap:4px;border-radius:20px;padding:2px 9px;font-size:10px;font-weight:700;white-space:nowrap}
+.tag-sub {background:rgba(88,166,255,.12);color:var(--accent);border:1px solid rgba(88,166,255,.25)}
+.tag-svc {background:rgba(188,140,255,.12);color:var(--purple);border:1px solid rgba(188,140,255,.25)}
+.tag-price{background:rgba(63,185,80,.12); color:var(--green); border:1px solid rgba(63,185,80,.25)}
+.tag-demo {background:rgba(139,148,158,.1);color:var(--muted); border:1px solid var(--border)}
+.tag-src-twitter{background:rgba(29,155,240,.12);color:#1d9bf0;border:1px solid rgba(29,155,240,.25)}
+.tag-src-reddit {background:rgba(255,69,0,.12); color:#ff4500;border:1px solid rgba(255,69,0,.25)}
+.tag-ds  {background:rgba(88,166,255,.1); color:var(--accent)}
+.tag-wr  {background:rgba(210,153,34,.1); color:var(--orange)}
+.tag-dbg {background:rgba(248,81,73,.1);  color:var(--red)}
+.tag-gen {background:rgba(139,148,158,.1);color:var(--muted)}
+.tag-new      {background:rgba(88,166,255,.12);color:var(--accent)}
+.tag-drafted  {background:rgba(210,153,34,.12);color:var(--orange)}
+.tag-sent     {background:rgba(188,140,255,.12);color:var(--purple)}
+.tag-converted{background:rgba(63,185,80,.12); color:var(--green)}
+.tag-ignored  {background:rgba(139,148,158,.1);color:var(--muted)}
+.sc-info{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sc-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.urgency-pill{border-radius:20px;padding:3px 9px;font-size:11px;font-weight:800}
+.up-hot {background:rgba(248,81,73,.15);color:var(--red)}
+.up-warm{background:rgba(210,153,34,.15);color:var(--orange)}
+.up-cool{background:rgba(63,185,80,.15); color:var(--green)}
+.replied-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
+.rb-yes{background:rgba(63,185,80,.15);color:var(--green)}
+.rb-no {background:rgba(248,81,73,.15); color:var(--red)}
 
 /* expanded body */
-.sc-body{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
-.signal-card.expanded .sc-body{display:block}
-.sc-excerpt{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:14px;font-style:italic}
-.sc-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.sc-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border)}
+.sc.expanded .sc-body{display:block}
+.sc-excerpt{font-size:12px;color:var(--muted);line-height:1.7;margin:14px 0;font-style:italic;border-left:3px solid var(--border);padding-left:12px}
 
-/* reply area */
-.reply-area{display:none;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-top:12px}
-.reply-area.visible{display:block}
-.reply-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.reply-text{
-  width:100%;min-height:130px;background:var(--bg);border:1px solid var(--border);
-  border-radius:6px;padding:12px;color:var(--text);font-size:13px;
-  font-family:inherit;line-height:1.7;resize:vertical;outline:none;
-  transition:border-color .15s;
-}
-.reply-text:focus{border-color:var(--accent)}
-.reply-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-.copy-btn{transition:all .2s}
-.copy-btn.copied{background:var(--green) !important;color:#0d1117 !important}
+/* reply zone */
+.reply-zone{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:12px}
+.reply-zone-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.rz-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);display:flex;align-items:center;gap:6px}
+.mode-tabs{display:flex;gap:3px;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:3px}
+.mode-tab{padding:4px 9px;border-radius:5px;border:none;background:transparent;color:var(--muted);font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.04em}
+.mode-tab.active{background:var(--accent);color:#0d1117}
+.mode-tab:hover:not(.active){color:var(--text)}
+.reply-textarea{width:100%;min-height:120px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-size:12px;font-family:inherit;line-height:1.7;resize:vertical;outline:none;transition:border-color .15s}
+.reply-textarea:focus{border-color:var(--accent)}
+.reply-actions-row{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+.copied-btn{background:var(--green) !important;color:#0d1117 !important}
 
-/* offer card */
-.offer-card{
-  background:linear-gradient(135deg,rgba(88,166,255,.08),rgba(188,140,255,.08));
-  border:1px solid rgba(88,166,255,.2);border-radius:8px;padding:14px 16px;
-  display:flex;align-items:center;gap:14px;margin-top:10px;
-}
-.oc-icon{font-size:26px}
-.oc-body{flex:1}
-.oc-title{font-size:13px;font-weight:700;color:var(--text)}
-.oc-line{font-size:12px;color:var(--muted);margin-top:2px}
-.oc-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
-.oc-price{font-size:16px;font-weight:800;color:var(--green)}
-.oc-turn{font-size:11px;color:var(--muted)}
+/* quick actions */
+.quick-actions{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+.status-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:10px}
+.status-row span{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.replied-row{display:flex;align-items:center;gap:6px;margin-top:8px}
+.replied-row span{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
 
-/* status badges */
-.status-change{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.status-change span{font-size:11px;color:var(--muted)}
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:50px 20px;color:var(--muted);background:var(--surface);border:1px dashed var(--border);border-radius:var(--radius)}
+.empty i{font-size:40px;margin-bottom:14px;color:var(--border);display:block}
+.empty h3{font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px}
+.empty p{font-size:12px;max-width:360px;margin:0 auto 16px}
 
-/* ─── EMPTY STATE ──────────────────────────────────────────────────── */
-.empty-state{
-  text-align:center;padding:60px 20px;color:var(--muted);
-  background:var(--surface);border:1px dashed var(--border);border-radius:var(--radius);
-}
-.empty-state i{font-size:48px;margin-bottom:16px;color:var(--border)}
-.empty-state h3{font-size:16px;font-weight:600;color:var(--text);margin-bottom:8px}
-.empty-state p{font-size:13px;max-width:400px;margin:0 auto 20px}
-
-/* ─── LOADING ───────────────────────────────────────────────────────── */
+/* ── LOADING ── */
 .loading{text-align:center;padding:40px;color:var(--muted)}
-.spinner{display:inline-block;width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:10px}
+.spinner{display:inline-block;width:22px;height:22px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:8px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ─── TOAST ────────────────────────────────────────────────────────── */
-#toast-container{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px}
-.toast{
-  background:var(--surface2);border:1px solid var(--border);border-radius:8px;
-  padding:12px 16px;font-size:13px;color:var(--text);
-  display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);
-  animation:slideIn .3s ease;max-width:320px;
-}
-.toast.success{border-color:var(--green)}
-.toast.error{border-color:var(--red)}
-.toast.info{border-color:var(--accent)}
-@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+/* ── HEATMAP ── */
+.heatmap-grid{display:grid;grid-template-columns:repeat(24,1fr);gap:3px}
+.hm-cell{height:32px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:rgba(255,255,255,.7);cursor:default;transition:transform .15s;position:relative}
+.hm-cell:hover{transform:scaleY(1.2);z-index:1}
+.hm-tooltip{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:4px 8px;font-size:10px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:10}
+.hm-cell:hover .hm-tooltip{opacity:1}
+.hm-labels{display:grid;grid-template-columns:repeat(24,1fr);gap:3px;margin-top:4px}
+.hm-label{text-align:center;font-size:9px;color:var(--muted2)}
+.hm-legend{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);margin-top:8px;justify-content:flex-end}
+.hm-legend-bar{display:flex;gap:2px}
+.hm-legend-swatch{width:14px;height:14px;border-radius:3px}
 
-/* ─── MODAL ────────────────────────────────────────────────────────── */
-.modal-overlay{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);
-  z-index:500;align-items:center;justify-content:center;padding:20px;
-}
-.modal-overlay.open{display:flex}
-.modal{
-  background:var(--surface);border:1px solid var(--border);border-radius:12px;
-  width:100%;max-width:540px;max-height:90vh;overflow-y:auto;
-  box-shadow:0 20px 60px rgba(0,0,0,.6);
-}
-.modal-header{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.modal-title{font-size:16px;font-weight:700}
-.modal-close{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:4px;border-radius:4px}
-.modal-close:hover{color:var(--text)}
-.modal-body{padding:20px 24px}
-.modal-footer{padding:16px 24px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+/* ── SERVICES GRID ── */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:12px}
+.svc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;transition:border-color .2s}
+.svc-card:hover{border-color:var(--accent)}
+.svc-icon{font-size:26px;margin-bottom:10px}
+.svc-name{font-size:14px;font-weight:800;margin-bottom:3px}
+.svc-line{font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5}
+.svc-price{font-size:18px;font-weight:900;color:var(--green);letter-spacing:-.3px}
+.svc-turn{font-size:10px;color:var(--muted);margin-top:3px}
+.svc-hook{display:inline-flex;align-items:center;gap:4px;background:rgba(63,185,80,.1);color:var(--green);border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;margin-top:6px}
 
-/* form */
-.form-group{margin-bottom:16px}
-.form-label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
-.form-input{
-  width:100%;background:var(--surface2);border:1px solid var(--border);
-  border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;
-  outline:none;font-family:inherit;transition:border-color .15s;
-}
+/* ── HOW-IT-WORKS ── */
+.how-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:12px}
+.how-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.step-num{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#0d1117;margin-bottom:10px}
+.how-card h4{font-size:13px;font-weight:700;margin-bottom:5px}
+.how-card p{font-size:11px;color:var(--muted);line-height:1.6}
+
+/* ── MINI BARS ── */
+.mini-bars{display:flex;flex-direction:column;gap:7px}
+.mini-bar{display:flex;align-items:center;gap:8px;font-size:11px}
+.mb-label{width:140px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0}
+.mb-track{flex:1;height:7px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.mb-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .6s ease}
+.mb-fill.green{background:var(--green)}
+.mb-fill.orange{background:var(--orange)}
+.mb-fill.purple{background:var(--purple)}
+.mb-count{width:20px;text-align:right;color:var(--text);font-weight:700}
+
+/* ── TOAST ── */
+#toasts{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none}
+.toast{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text);display:flex;align-items:center;gap:9px;box-shadow:var(--shadow);animation:toastIn .25s ease;max-width:300px;pointer-events:all}
+.toast.success{border-color:var(--green)}.toast.error{border-color:var(--red)}.toast.info{border-color:var(--accent)}
+@keyframes toastIn{from{transform:translateX(110%);opacity:0}to{transform:none;opacity:1}}
+
+/* ── MODAL ── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;align-items:center;justify-content:center;padding:16px}
+.modal-bg.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:12px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.7)}
+.mhdr{padding:18px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.mhdr-title{font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px}
+.mclose{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:4px;border-radius:4px}
+.mclose:hover{color:var(--text)}
+.mbody{padding:18px 22px}
+.mftr{padding:14px 22px 18px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.form-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 11px;color:var(--text);font-size:13px;outline:none;transition:border-color .15s}
 .form-input:focus{border-color:var(--accent)}
-.form-hint{font-size:11px;color:var(--muted);margin-top:4px}
-.free-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.3);border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700}
+.form-hint{font-size:10px;color:var(--muted);margin-top:4px}
+.free-badge{display:inline-flex;align-items:center;gap:3px;background:rgba(63,185,80,.12);color:var(--green);border:1px solid rgba(63,185,80,.3);border-radius:20px;padding:2px 7px;font-size:9px;font-weight:700}
 
-/* ─── HOW-IT-WORKS PANEL ───────────────────────────────────────────── */
-.how-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-.how-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  padding:18px;display:flex;flex-direction:column;gap:10px;
-}
-.how-card .step-num{
-  width:30px;height:30px;border-radius:50%;
-  background:linear-gradient(135deg,var(--accent),var(--purple));
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;font-weight:800;color:#0d1117;flex-shrink:0;
-}
-.how-card h4{font-size:13px;font-weight:700}
-.how-card p{font-size:12px;color:var(--muted);line-height:1.6}
+/* ── SETUP BANNER ── */
+.setup-banner{background:linear-gradient(135deg,rgba(88,166,255,.08),rgba(188,140,255,.06));border:1px solid rgba(88,166,255,.2);border-radius:var(--radius);padding:14px 18px;display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.sb-icon{font-size:18px;color:var(--accent);margin-top:1px;flex-shrink:0}
+.sb-body{flex:1}
+.sb-title{font-size:13px;font-weight:700;margin-bottom:2px}
+.sb-desc{font-size:11px;color:var(--muted)}
+.sb-steps{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.setup-step{display:flex;align-items:center;gap:4px;border-radius:6px;padding:3px 9px;font-size:10px;font-weight:700;border:1px solid}
+.step-done{color:var(--green);border-color:rgba(63,185,80,.3);background:rgba(63,185,80,.08)}
+.step-todo{color:var(--orange);border-color:rgba(210,153,34,.3);background:rgba(210,153,34,.08)}
 
-/* ─── SERVICES PANEL ───────────────────────────────────────────────── */
-.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-.service-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  padding:18px;transition:border-color .2s;
-}
-.service-card:hover{border-color:var(--accent)}
-.service-card .svc-icon{font-size:28px;margin-bottom:10px}
-.service-card .svc-name{font-size:14px;font-weight:700;margin-bottom:4px}
-.service-card .svc-line{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.5}
-.service-card .svc-price{font-size:16px;font-weight:800;color:var(--green)}
-.service-card .svc-turn{font-size:11px;color:var(--muted);margin-top:2px}
+/* ── SURFACE CARD (reusable) ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.card-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:14px}
 
-/* ─── CHART BAR ────────────────────────────────────────────────────── */
-.mini-bars{display:flex;flex-direction:column;gap:8px}
-.mini-bar-item{display:flex;align-items:center;gap:10px;font-size:12px}
-.mini-bar-item .bar-label{width:130px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mini-bar-item .bar-track{flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden}
-.mini-bar-item .bar-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .6s ease}
-.mini-bar-item .bar-count{width:24px;text-align:right;color:var(--text);font-weight:600}
-
-/* ─── RESPONSIVE ───────────────────────────────────────────────────── */
-@media(max-width:768px){
+/* ── RESPONSIVE ── */
+@media(max-width:700px){
   .app{grid-template-columns:1fr}
   .sidebar{display:none}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
-  .how-grid,.services-grid{grid-template-columns:1fr}
-  .oc-right{display:none}
+  .heatmap-grid,.hm-labels{grid-template-columns:repeat(12,1fr)}
+  .hm-cell:nth-child(n+13){display:none}
+  .hm-label:nth-child(n+13){display:none}
 }
-
-/* ─── PAGE SECTIONS ────────────────────────────────────────────────── */
-.page-section{display:none}
-.page-section.active{display:flex;flex-direction:column;gap:24px}
-
-/* ─── SETUP BANNER ─────────────────────────────────────────────────── */
-.setup-banner{
-  background:linear-gradient(135deg,rgba(88,166,255,.1),rgba(188,140,255,.08));
-  border:1px solid rgba(88,166,255,.25);border-radius:var(--radius);
-  padding:16px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
-}
-.setup-banner i{font-size:20px;color:var(--accent)}
-.setup-banner .sb-text{flex:1}
-.setup-banner .sb-title{font-size:13px;font-weight:700;margin-bottom:3px}
-.setup-banner .sb-desc{font-size:12px;color:var(--muted)}
-.setup-banner .sb-steps{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.setup-step{
-  display:flex;align-items:center;gap:5px;
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--muted);
-}
-.setup-step.done{color:var(--green);border-color:rgba(63,185,80,.3);background:rgba(63,185,80,.06)}
-.setup-step.todo{color:var(--orange);border-color:rgba(210,153,34,.3);background:rgba(210,153,34,.06)}
 </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- ── TOP BAR ──────────────────────────────────────────────────────── -->
-  <header class="topbar">
-    <div class="logo"><i class="fa-solid fa-crosshairs"></i> Client Hunter</div>
-    <div class="scan-badge" id="scanBadge">
-      <span class="dot"></span>
-      <span id="scanText">Demo mode</span>
+<!-- ══ TOPBAR ════════════════════════════════════════════════════════════ -->
+<header class="topbar">
+  <div class="logo"><i class="fa-solid fa-crosshairs crosshair"></i> Client Hunter<sub>v2</sub></div>
+  <div class="topbar-center">
+    <div class="caps-bar" id="capsBar">
+      <div class="cap-pill off" id="capReddit"><span class="dot"></span>Reddit</div>
+      <div class="cap-pill off" id="capTwitter"><span class="dot"></span>Twitter/X</div>
+      <div class="cap-pill off" id="capAI"><span class="dot"></span>AI Replies</div>
+      <div class="cap-pill on"  id="capDemo"><span class="dot"></span>Demo Mode</div>
     </div>
-    <div class="topbar-spacer"></div>
-    <div class="topbar-profile">
-      <div class="avatar" id="avatarInitials">SK</div>
-      <div>
-        <div class="pname" id="topName">Steve Kaks</div>
-        <div class="ploc" id="topLoc">Kiambu, Kenya</div>
+  </div>
+  <div class="topbar-profile">
+    <div class="avatar" id="avatarEl">SK</div>
+    <div><div class="pname" id="topName">Steve Kaks</div><div class="ploc">Kiambu, Kenya</div></div>
+  </div>
+</header>
+
+<!-- ══ SIDEBAR ═══════════════════════════════════════════════════════════ -->
+<aside class="sidebar">
+  <div class="sec-label">Dashboard</div>
+  <button class="nav-btn active" onclick="showPage('signals')" id="navSignals">
+    <i class="fa-solid fa-signal"></i> Live Signals
+    <span class="nav-badge" id="newBadge">0</span>
+  </button>
+  <button class="nav-btn" onclick="showPage('heatmap')" id="navHeatmap">
+    <i class="fa-solid fa-fire"></i> Heat Map
+  </button>
+  <button class="nav-btn" onclick="showPage('services')" id="navServices">
+    <i class="fa-solid fa-briefcase"></i> My Services
+  </button>
+  <button class="nav-btn" onclick="showPage('howto')" id="navHowto">
+    <i class="fa-solid fa-map"></i> How It Works
+  </button>
+  <div class="sidebar-divider"></div>
+  <div class="sec-label">Actions</div>
+  <button class="nav-btn" onclick="scanDemo()"><i class="fa-solid fa-flask"></i> Add Demo Signals</button>
+  <button class="nav-btn" onclick="scanReddit()"><i class="fa-brands fa-reddit"></i> Scan Reddit</button>
+  <button class="nav-btn" onclick="scanTwitter()"><i class="fa-brands fa-x-twitter"></i> Scan Twitter/X</button>
+  <button class="nav-btn" onclick="draftAll()"><i class="fa-solid fa-robot"></i> AI Draft All</button>
+  <div class="sidebar-divider"></div>
+  <button class="nav-btn" onclick="openSettings()"><i class="fa-solid fa-gear"></i> Settings / API Keys</button>
+  <div class="scan-status">
+    <span class="scan-dot" id="scanDot"></span>
+    <span id="scanText" style="font-size:11px;color:var(--muted)">Demo mode active</span>
+    <div id="scanLast" style="font-size:10px;color:var(--muted2);margin-top:3px"></div>
+  </div>
+</aside>
+
+<!-- ══ MAIN ═══════════════════════════════════════════════════════════════ -->
+<main class="main">
+
+<!-- ════ SIGNALS PAGE ════ -->
+<div class="page-section active" id="pageSignals">
+  <div class="ph">
+    <div><div class="ph-title"><i class="fa-solid fa-satellite-dish" style="color:var(--accent)"></i>Live Signals</div><div class="ph-sub">Students who need exactly what you offer — right now</div></div>
+    <div class="ph-actions">
+      <button class="btn btn-secondary btn-sm" onclick="scanDemo()"><i class="fa-solid fa-flask"></i>Demo</button>
+      <button class="btn btn-secondary btn-sm" onclick="scanReddit()"><i class="fa-brands fa-reddit"></i>Reddit</button>
+      <button class="btn btn-secondary btn-sm" onclick="scanTwitter()"><i class="fa-brands fa-x-twitter"></i>Twitter</button>
+      <button class="btn btn-primary btn-sm" onclick="draftAll()"><i class="fa-solid fa-robot"></i>AI Draft All</button>
+    </div>
+  </div>
+
+  <!-- Setup banner -->
+  <div class="setup-banner" id="setupBanner">
+    <div class="sb-icon"><i class="fa-solid fa-circle-info"></i></div>
+    <div class="sb-body">
+      <div class="sb-title">Running in Demo Mode — fully functional, zero cost</div>
+      <div class="sb-desc">Add free API keys below to unlock live Reddit/Twitter scanning and smarter AI replies. No credit card for anything.</div>
+      <div class="sb-steps">
+        <div class="setup-step step-done"><i class="fa-solid fa-check"></i>Demo ✓</div>
+        <div class="setup-step step-todo" id="stepReddit"><i class="fa-brands fa-reddit"></i>Reddit API (free)</div>
+        <div class="setup-step step-todo" id="stepTwitter"><i class="fa-brands fa-x-twitter"></i>Twitter Bearer (free)</div>
+        <div class="setup-step step-todo" id="stepGroq"><i class="fa-solid fa-robot"></i>Groq AI (free)</div>
       </div>
     </div>
-  </header>
+    <button class="btn btn-secondary btn-sm" onclick="openSettings()"><i class="fa-solid fa-gear"></i>Setup</button>
+  </div>
 
-  <!-- ── SIDEBAR ──────────────────────────────────────────────────────── -->
-  <aside class="sidebar">
-    <div class="sidebar-section">Navigation</div>
-    <button class="nav-btn active" onclick="showPage('signals')" id="navSignals">
-      <i class="fa-solid fa-signal"></i> Live Signals
-      <span class="nav-badge" id="newBadge">0</span>
-    </button>
-    <button class="nav-btn" onclick="showPage('services')" id="navServices">
-      <i class="fa-solid fa-briefcase"></i> My Services
-    </button>
-    <button class="nav-btn" onclick="showPage('howto')" id="navHowto">
-      <i class="fa-solid fa-map"></i> How It Works
-    </button>
-    <div class="sidebar-divider"></div>
-    <div class="sidebar-section">Actions</div>
-    <button class="nav-btn" onclick="scanDemo()">
-      <i class="fa-solid fa-wand-magic-sparkles"></i> Add Demo Signals
-    </button>
-    <button class="nav-btn" onclick="scanLive()">
-      <i class="fa-brands fa-reddit"></i> Scan Reddit
-    </button>
-    <button class="nav-btn" onclick="draftAll()">
-      <i class="fa-solid fa-robot"></i> AI Draft All
-    </button>
-    <div class="sidebar-divider"></div>
-    <button class="nav-btn" onclick="openSettings()">
-      <i class="fa-solid fa-gear"></i> Settings / API Keys
-    </button>
-  </aside>
+  <!-- Stats grid -->
+  <div class="stats-grid">
+    <div class="stat-card"><div class="s-label">Total</div><div class="s-value col-accent" id="stTotal">—</div><div class="s-sub">detected</div></div>
+    <div class="stat-card"><div class="s-label">New</div><div class="s-value col-accent" id="stNew">—</div><div class="s-sub">need reply</div></div>
+    <div class="stat-card"><div class="s-label">Drafted</div><div class="s-value col-orange" id="stDrafted">—</div><div class="s-sub">ready to send</div></div>
+    <div class="stat-card"><div class="s-label">Sent</div><div class="s-value col-purple" id="stSent">—</div><div class="s-sub">waiting</div></div>
+    <div class="stat-card"><div class="s-label">Converted</div><div class="s-value col-green" id="stConverted">—</div><div class="s-sub">clients 🎉</div></div>
+    <div class="stat-card"><div class="s-label">🔥 Hot</div><div class="s-value col-red" id="stHot">—</div><div class="s-sub">high urgency</div></div>
+    <div class="stat-card"><div class="s-label">Response Rate</div><div class="s-value col-yellow" id="stResp">—</div><div class="s-sub">replied back</div></div>
+    <div class="stat-card"><div class="s-label">Conversion</div><div class="s-value col-green" id="stConvRate">—</div><div class="s-sub">overall rate</div></div>
+  </div>
 
-  <!-- ── MAIN ─────────────────────────────────────────────────────────── -->
-  <main class="main">
+  <!-- Service breakdown -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-chart-bar" style="color:var(--accent)"></i>Signal Breakdown</div>
+    <div class="mini-bars" id="svcBreakdown"><div style="font-size:11px;color:var(--muted)">Loading…</div></div>
+  </div>
 
-    <!-- ════ SIGNALS PAGE ════ -->
-    <div class="page-section active" id="pageSignals">
-
-      <div class="page-header">
-        <div>
-          <div class="page-title"><i class="fa-solid fa-crosshairs" style="color:var(--accent)"></i> Live Signals
-            <span style="font-size:13px;font-weight:400;color:var(--muted)">— students who need you right now</span>
-          </div>
-        </div>
-        <div class="page-actions">
-          <button class="btn btn-secondary" onclick="scanDemo()"><i class="fa-solid fa-flask"></i> Demo Signals</button>
-          <button class="btn btn-secondary" onclick="scanLive()"><i class="fa-brands fa-reddit"></i> Scan Reddit</button>
-          <button class="btn btn-primary" onclick="draftAll()"><i class="fa-solid fa-robot"></i> AI Draft All</button>
-        </div>
-      </div>
-
-      <!-- Setup banner -->
-      <div class="setup-banner" id="setupBanner">
-        <i class="fa-solid fa-circle-info"></i>
-        <div class="sb-text">
-          <div class="sb-title">Running in Demo Mode — 100% FREE, no API keys needed!</div>
-          <div class="sb-desc">Add free API keys to unlock live Reddit scanning and AI-powered reply drafts.</div>
-          <div class="sb-steps">
-            <div class="setup-step done" id="stepDemo"><i class="fa-solid fa-check"></i> Demo mode ✓</div>
-            <div class="setup-step todo" id="stepReddit"><i class="fa-brands fa-reddit"></i> Reddit API (free)</div>
-            <div class="setup-step todo" id="stepGroq"><i class="fa-solid fa-robot"></i> Groq AI (free)</div>
-          </div>
-        </div>
-        <button class="btn btn-secondary btn-sm" onclick="openSettings()"><i class="fa-solid fa-gear"></i> Setup Keys</button>
-      </div>
-
-      <!-- Stats grid -->
-      <div class="stats-grid" id="statsGrid">
-        <div class="stat-card"><div class="s-label">Total Signals</div><div class="s-value" id="statTotal">—</div><div class="s-sub">detected so far</div></div>
-        <div class="stat-card"><div class="s-label">New</div><div class="s-value s-new" id="statNew">—</div><div class="s-sub">need your reply</div></div>
-        <div class="stat-card"><div class="s-label">Drafted</div><div class="s-value s-drafted" id="statDrafted">—</div><div class="s-sub">ready to send</div></div>
-        <div class="stat-card"><div class="s-label">Sent</div><div class="s-value s-sent" id="statSent">—</div><div class="s-sub">awaiting reply</div></div>
-        <div class="stat-card"><div class="s-label">Converted</div><div class="s-value s-converted" id="statConverted">—</div><div class="s-sub">paying clients 🎉</div></div>
-        <div class="stat-card"><div class="s-label">🔥 Hot</div><div class="s-value s-hot" id="statHot">—</div><div class="s-sub">high urgency</div></div>
-      </div>
-
-      <!-- Service breakdown -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px">
-        <div style="font-size:13px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px"><i class="fa-solid fa-chart-bar" style="color:var(--accent)"></i> Signal Breakdown by Service</div>
-        <div class="mini-bars" id="serviceBreakdown"><div style="color:var(--muted);font-size:12px">Loading…</div></div>
-      </div>
-
-      <!-- Filter bar -->
-      <div class="filter-bar">
-        <div class="filter-tabs">
-          <button class="filter-tab active" onclick="filterSignals('all',this)">All</button>
-          <button class="filter-tab" onclick="filterSignals('new',this)">New</button>
-          <button class="filter-tab" onclick="filterSignals('drafted',this)">Drafted</button>
-          <button class="filter-tab" onclick="filterSignals('sent',this)">Sent</button>
-          <button class="filter-tab" onclick="filterSignals('converted',this)">Converted</button>
-          <button class="filter-tab" onclick="filterSignals('ignored',this)">Ignored</button>
-        </div>
-        <div class="search-wrap">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Search signals…" id="searchInput" oninput="renderSignals()"/>
-        </div>
-        <select class="sort-select" id="sortSelect" onchange="renderSignals()">
-          <option value="urgency">Sort: Urgency</option>
-          <option value="date">Sort: Date</option>
-        </select>
-      </div>
-
-      <!-- Signals list -->
-      <div id="signalsList"><div class="loading"><div class="spinner"></div><div>Loading signals…</div></div></div>
-
-    </div><!-- /pageSignals -->
-
-    <!-- ════ SERVICES PAGE ════ -->
-    <div class="page-section" id="pageServices">
-      <div class="page-header">
-        <div class="page-title"><i class="fa-solid fa-briefcase" style="color:var(--accent)"></i> My Services</div>
-      </div>
-      <div style="font-size:13px;color:var(--muted)">Your exact offers — copy these prices when you reply to students.</div>
-      <div class="services-grid" id="servicesGrid"></div>
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="setFilter('all',this)">All</button>
+      <button class="filter-tab" onclick="setFilter('new',this)">New</button>
+      <button class="filter-tab" onclick="setFilter('drafted',this)">Drafted</button>
+      <button class="filter-tab" onclick="setFilter('sent',this)">Sent</button>
+      <button class="filter-tab" onclick="setFilter('converted',this)">Converted</button>
+      <button class="filter-tab" onclick="setFilter('ignored',this)">Ignored</button>
     </div>
+    <div class="search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="searchInput" placeholder="Search…" oninput="renderSignals()"/></div>
+    <select class="tag-select" id="tagSelect" onchange="renderSignals()">
+      <option value="">All subjects</option>
+      <option value="Data Science">Data Science</option>
+      <option value="Writing">Writing</option>
+      <option value="Debugging">Debugging</option>
+      <option value="General">General</option>
+    </select>
+    <select class="source-select" id="sourceSelect" onchange="renderSignals()">
+      <option value="">All sources</option>
+      <option value="reddit">Reddit</option>
+      <option value="twitter">Twitter/X</option>
+    </select>
+    <select class="sort-select" id="sortSelect" onchange="renderSignals()">
+      <option value="urgency">↓ Urgency</option>
+      <option value="date">↓ Date</option>
+    </select>
+  </div>
 
-    <!-- ════ HOW IT WORKS PAGE ════ -->
-    <div class="page-section" id="pageHowto">
-      <div class="page-header">
-        <div class="page-title"><i class="fa-solid fa-map" style="color:var(--accent)"></i> How It Works</div>
-      </div>
-      <div class="how-grid">
-        <div class="how-card">
-          <div class="step-num">1</div>
-          <h4>🎯 Detect Signals</h4>
-          <p>The scanner watches Reddit for students posting about errors, deadlines, and assignments — in real time, 24/7.</p>
-        </div>
-        <div class="how-card">
-          <div class="step-num">2</div>
-          <h4>🤖 AI Drafts Reply</h4>
-          <p>Click "Draft Reply" — AI writes a personalised, helpful response using your name and contact. Sounds human, not robotic.</p>
-        </div>
-        <div class="how-card">
-          <div class="step-num">3</div>
-          <h4>📋 Copy → Paste</h4>
-          <p>Copy the reply with one click. Paste it on Reddit. You're the first helpful expert they see — conversions are high.</p>
-        </div>
-        <div class="how-card">
-          <div class="step-num">4</div>
-          <h4>💬 DM Converts</h4>
-          <p>Student DMs you. You give an exact quote. They pay. You deliver. Mark as "Converted" to track your earnings.</p>
-        </div>
-        <div class="how-card">
-          <div class="step-num">5</div>
-          <h4>📣 Referral Loop</h4>
-          <p>Happy students refer friends. Offer: "Bring 2 friends, you get $10 off your next project." Snowball effect.</p>
-        </div>
-        <div class="how-card">
-          <div class="step-num">6</div>
-          <h4>📅 Sunday Night Gold</h4>
-          <p>Be online 9 PM–midnight on Sundays. That's when students panic before Monday deadlines. Highest conversion window.</p>
-        </div>
-      </div>
+  <div id="signalsList"><div class="loading"><div class="spinner"></div><div>Loading…</div></div></div>
+</div><!-- /signals -->
 
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px">
-        <div style="font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fa-brands fa-reddit" style="color:var(--orange)"></i> Best Reddit Subreddits to Reply In</div>
-        <div style="display:flex;flex-wrap:wrap;gap:8px" id="subredditList"></div>
-      </div>
 
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px">
-        <div style="font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fa-solid fa-bolt" style="color:var(--orange)"></i> Free Tools to Get API Keys</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
-            <i class="fa-brands fa-reddit" style="font-size:20px;color:var(--orange)"></i>
-            <div style="flex:1"><div style="font-weight:600;font-size:13px">Reddit API</div><div style="font-size:12px;color:var(--muted)">Go to reddit.com/prefs/apps → Create app → "script" type. Free forever.</div></div>
-            <a href="https://www.reddit.com/prefs/apps" target="_blank" class="btn btn-secondary btn-sm">Get Free Key</a>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
-            <i class="fa-solid fa-robot" style="font-size:20px;color:var(--accent)"></i>
-            <div style="flex:1"><div style="font-weight:600;font-size:13px">Groq AI (free LLM)</div><div style="font-size:12px;color:var(--muted)">console.groq.com → free tier includes thousands of requests/day. No credit card.</div></div>
-            <a href="https://console.groq.com" target="_blank" class="btn btn-secondary btn-sm">Get Free Key</a>
-          </div>
-        </div>
+<!-- ════ HEATMAP PAGE ════ -->
+<div class="page-section" id="pageHeatmap">
+  <div class="ph">
+    <div><div class="ph-title"><i class="fa-solid fa-fire" style="color:var(--red)"></i>Activity Heat Map</div><div class="ph-sub">When students post — optimise when you're online</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-clock" style="color:var(--orange)"></i>Signal Volume by Hour of Day (Local Time)</div>
+    <div class="heatmap-grid" id="hmGrid"></div>
+    <div class="hm-labels" id="hmLabels"></div>
+    <div class="hm-legend">
+      <span>Low</span>
+      <div class="hm-legend-bar">
+        <div class="hm-legend-swatch" style="background:rgba(63,185,80,.2)"></div>
+        <div class="hm-legend-swatch" style="background:rgba(63,185,80,.5)"></div>
+        <div class="hm-legend-swatch" style="background:rgba(210,153,34,.7)"></div>
+        <div class="hm-legend-swatch" style="background:rgba(248,81,73,.8)"></div>
+        <div class="hm-legend-swatch" style="background:rgba(248,81,73,1)"></div>
       </div>
-    </div><!-- /pageHowto -->
+      <span>High</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-lightbulb" style="color:var(--yellow)"></i>Best Times to Be Online</div>
+    <div id="hmInsights" style="font-size:12px;line-height:1.8;color:var(--muted)">Loading…</div>
+  </div>
+</div><!-- /heatmap -->
 
-  </main>
+
+<!-- ════ SERVICES PAGE ════ -->
+<div class="page-section" id="pageServices">
+  <div class="ph">
+    <div><div class="ph-title"><i class="fa-solid fa-briefcase" style="color:var(--accent)"></i>My Services & Prices</div><div class="ph-sub">Reference these exact prices when replying to students</div></div>
+  </div>
+  <div class="svc-grid" id="svcGrid"></div>
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-bolt" style="color:var(--yellow)"></i>The Burrito Principle</div>
+    <p style="font-size:12px;color:var(--muted);line-height:1.7">A student will pay $15 for a burrito without thinking. <strong style="color:var(--text)">Never charge by the hour</strong> — students fear the clock. Charge by the output: they pay for a deliverable they can submit, not your time.<br><br>
+    <strong style="color:var(--text)">🌙 Sunday nights 9–11 PM</strong> are your gold mine — that's when students panic before Monday deadlines. Be online, be fast, be first.</p>
+  </div>
+</div><!-- /services -->
+
+
+<!-- ════ HOW IT WORKS PAGE ════ -->
+<div class="page-section" id="pageHowto">
+  <div class="ph"><div><div class="ph-title"><i class="fa-solid fa-map" style="color:var(--accent)"></i>How It Works</div></div></div>
+  <div class="how-grid">
+    <div class="how-card"><div class="step-num">1</div><h4>🎯 Scan for Signals</h4><p>The tool watches Reddit + Twitter/X for students posting about deadlines, errors, and assignments. Every scan covers 12 subreddits and 7 Twitter queries.</p></div>
+    <div class="how-card"><div class="step-num">2</div><h4>🔥 Urgency Score</h4><p>Every signal is scored automatically. "Due in 3 hours" scores higher than "struggling with course". You see the hottest leads first.</p></div>
+    <div class="how-card"><div class="step-num">3</div><h4>🤖 Draft Reply</h4><p>Choose a mode: <strong>Urgent</strong> (short, deadline), <strong>Long-term</strong> (tutoring package), <strong>Group</strong> (split pricing), <strong>Low-key</strong> (no promo, anti-ban), or <strong>DM</strong> (private message).</p></div>
+    <div class="how-card"><div class="step-num">4</div><h4>📋 Copy + Open</h4><p>Click "Copy Reply" then "Open Post" — your browser opens Reddit directly. Paste. You're the first helpful expert they see. Conversion follows.</p></div>
+    <div class="how-card"><div class="step-num">5</div><h4>✅ Track Replies</h4><p>After posting, mark "Did they reply?" — Yes or No. Over time you see which reply modes convert best and double down on those.</p></div>
+    <div class="how-card"><div class="step-num">6</div><h4>💰 Mark Converted</h4><p>When a student pays, mark them Converted. Your conversion rate is tracked on the dashboard. This is your personal business metric.</p></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><i class="fa-brands fa-reddit" style="color:#ff4500"></i>Target Subreddits</div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px" id="subList"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-key" style="color:var(--yellow)"></i>Free API Keys — Get Them in 5 Minutes</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px">
+        <i class="fa-brands fa-reddit" style="font-size:20px;color:#ff4500"></i>
+        <div style="flex:1"><div style="font-weight:700;font-size:12px">Reddit API <span class="free-badge">FREE FOREVER</span></div><div style="font-size:11px;color:var(--muted);margin-top:2px">reddit.com/prefs/apps → Create App → "script" type. Takes 2 minutes.</div></div>
+        <a href="https://www.reddit.com/prefs/apps" target="_blank" class="btn btn-secondary btn-sm">Get Key</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px">
+        <i class="fa-brands fa-x-twitter" style="font-size:20px;color:var(--text)"></i>
+        <div style="flex:1"><div style="font-weight:700;font-size:12px">Twitter/X Bearer Token <span class="free-badge">FREE TIER</span></div><div style="font-size:11px;color:var(--muted);margin-top:2px">developer.twitter.com → Create Project → Basic = 500k reads/month free.</div></div>
+        <a href="https://developer.twitter.com/en/portal/dashboard" target="_blank" class="btn btn-secondary btn-sm">Get Key</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px">
+        <i class="fa-solid fa-robot" style="font-size:20px;color:var(--accent)"></i>
+        <div style="flex:1"><div style="font-weight:700;font-size:12px">Groq AI <span class="free-badge">FREE — NO CREDIT CARD</span></div><div style="font-size:11px;color:var(--muted);margin-top:2px">console.groq.com → sign up → free tier gives thousands of AI requests/day.</div></div>
+        <a href="https://console.groq.com" target="_blank" class="btn btn-secondary btn-sm">Get Key</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-shield-halved" style="color:var(--green)"></i>Low-Key Mode — Reddit Anti-Ban</div>
+    <p style="font-size:12px;color:var(--muted);line-height:1.7">Some subreddits (especially r/HomeworkHelp) flag obvious self-promotion. <strong style="color:var(--text)">Low-key mode</strong> writes replies that sound like a helpful classmate — no portfolio link, no "hire me". Just value + a soft DM invite.<br><br>
+    Rule of thumb: <strong style="color:var(--text)">use Low-key for r/HomeworkHelp</strong>, use Urgent/DM for subreddits that allow promotion (r/learnpython, r/datascience, r/college).</p>
+  </div>
+</div><!-- /howto -->
+
+</main>
 </div><!-- /app -->
 
-<!-- ── SETTINGS MODAL ────────────────────────────────────────────────── -->
-<div class="modal-overlay" id="settingsModal">
+<!-- ══ SETTINGS MODAL ════════════════════════════════════════════════════ -->
+<div class="modal-bg" id="settingsModal">
   <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title"><i class="fa-solid fa-gear"></i> Settings</div>
-      <button class="modal-close" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="mhdr">
+      <div class="mhdr-title"><i class="fa-solid fa-gear"></i>Settings &amp; API Keys</div>
+      <button class="mclose" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
     </div>
-    <div class="modal-body">
-      <p style="font-size:12px;color:var(--muted);margin-bottom:18px">Your info is already filled in from your portfolio. Just add the free API keys to unlock everything.</p>
+    <div class="mbody">
+      <p style="font-size:11px;color:var(--muted);margin-bottom:16px">Your info is pre-filled from your portfolio. Paste any API key → it works <strong style="color:var(--text)">instantly</strong> — no restart.</p>
       <div class="form-group">
         <label class="form-label">Your Name</label>
-        <input class="form-input" id="sName" value="Stephen Muema (Steve Kaks)"/>
+        <input class="form-input" id="sName"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" id="sEmail"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone / WhatsApp</label>
+          <input class="form-input" id="sPhone"/>
+        </div>
       </div>
       <div class="form-group">
-        <label class="form-label">Email</label>
-        <input class="form-input" id="sEmail" value="musyokas753@gmail.com"/>
+        <label class="form-label">Portfolio URL</label>
+        <input class="form-input" id="sPortfolio"/>
+      </div>
+      <hr style="border-color:var(--border);margin:14px 0"/>
+      <div style="font-size:12px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:7px">
+        <i class="fa-solid fa-key" style="color:var(--yellow)"></i>Free API Keys — paste &amp; it works immediately
       </div>
       <div class="form-group">
-        <label class="form-label">Phone</label>
-        <input class="form-input" id="sPhone" value="+254-740-624-253"/>
+        <label class="form-label">Groq API Key <span class="free-badge">FREE · console.groq.com</span></label>
+        <input class="form-input" id="sGroq" type="password" placeholder="gsk_…" autocomplete="off"/>
+        <div class="form-hint">Powers all AI reply drafts. No credit card, no limits for this use case.</div>
       </div>
       <div class="form-group">
-        <label class="form-label">Portfolio</label>
-        <input class="form-input" id="sPortfolio" value="https://stephenmueama.com"/>
-      </div>
-      <hr style="border-color:var(--border);margin:18px 0"/>
-      <div style="font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px">
-        <i class="fa-solid fa-key" style="color:var(--accent)"></i> Free API Keys
-        <span class="free-badge"><i class="fa-solid fa-check"></i> All Free</span>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Groq API Key <span class="free-badge">FREE</span></label>
-        <input class="form-input" id="sGroq" placeholder="gsk_..." type="password"/>
-        <div class="form-hint">Get free at <a href="https://console.groq.com" target="_blank">console.groq.com</a> — powers AI reply drafts. No credit card needed.</div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Reddit Client ID <span class="free-badge">FREE</span></label>
-        <input class="form-input" id="sRedditId" placeholder="abc123xyz" type="password"/>
-        <div class="form-hint">Get free at <a href="https://www.reddit.com/prefs/apps" target="_blank">reddit.com/prefs/apps</a> — enables live signal scanning.</div>
+        <label class="form-label">Reddit Client ID <span class="free-badge">FREE · reddit.com/prefs/apps</span></label>
+        <input class="form-input" id="sRedditId" type="password" placeholder="14-char ID" autocomplete="off"/>
       </div>
       <div class="form-group">
         <label class="form-label">Reddit Client Secret <span class="free-badge">FREE</span></label>
-        <input class="form-input" id="sRedditSecret" placeholder="secret..." type="password"/>
+        <input class="form-input" id="sRedditSec" type="password" placeholder="Secret…" autocomplete="off"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Twitter/X Bearer Token <span class="free-badge">FREE TIER</span></label>
+        <input class="form-input" id="sTwitter" type="password" placeholder="AAAA…" autocomplete="off"/>
+        <div class="form-hint">developer.twitter.com → free basic access = 500k reads/month.</div>
       </div>
     </div>
-    <div class="modal-footer">
+    <div class="mftr">
       <button class="btn btn-secondary" onclick="closeSettings()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveSettings()"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+      <button class="btn btn-primary" onclick="saveSettings()"><i class="fa-solid fa-floppy-disk"></i>Save — Works Instantly</button>
     </div>
   </div>
 </div>
 
-<!-- ── TOAST CONTAINER ───────────────────────────────────────────────── -->
-<div id="toast-container"></div>
+<div id="toasts"></div>
 
 <script>
-// ════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════════
 //  STATE
-// ════════════════════════════════════════════════════════════════════════
-let allSignals  = [];
+// ════════════════════════════════════════════════════════════════════════════
+let ALL_SIGNALS  = [];
 let activeFilter = 'all';
 let currentPage  = 'signals';
 
-// ── Services definition ───────────────────────────────────────────────
 const SERVICES = [
-  {icon:'🐍', name:'Python Error Fix',  line:'Paste error + code → fix + explanation',  price:'$15–25',  turn:'~1 hour',    hook:'No fix, no charge'},
-  {icon:'🧹', name:'Data Cleaning',     line:'Raw CSV + prompt → clean commented notebook', price:'$35–50', turn:'2 hours',  hook:'One-click ready'},
-  {icon:'📊', name:'Data Visualization',line:'Any plots your professor wants, with comments', price:'$30–45',turn:'90 min',  hook:'Matplotlib + Seaborn'},
-  {icon:'📈', name:'Statistics Help',   line:'Regression, hypothesis testing, p-value write-up', price:'$40–60',turn:'2 hours', hook:'Plain-English included'},
-  {icon:'🤖', name:'Machine Learning',  line:'Model, cross-validation, evaluation metrics', price:'$75–100',turn:'3–5 hours', hook:'Full commented notebook'},
-  {icon:'🔍', name:'Full Data Analysis',line:'EDA + visualizations + interpretation',     price:'$50–75', turn:'2–4 hours', hook:'Professor-ready'},
-  {icon:'✍️', name:'Essay / Thesis',   line:'Restructure + sharpen argument + fix flow',  price:'$25–50', turn:'Same day',  hook:'Your ideas, just clearer'},
+  {icon:'🐍',name:'Python Error Fix',   line:'Error + code → fix + explanation', price:'$15–25', turn:'~1 hour',   hook:'No fix, no charge'},
+  {icon:'🧹',name:'Data Cleaning',      line:'Raw CSV → clean commented notebook',price:'$35–50', turn:'2 hours',  hook:'One-click ready'},
+  {icon:'📊',name:'Data Visualization', line:'Any plots, with code comments',     price:'$30–45', turn:'90 min',   hook:'Matplotlib + Seaborn'},
+  {icon:'📈',name:'Statistics Help',    line:'Regression, p-values, write-up',    price:'$40–60', turn:'2 hours',  hook:'Plain-English'},
+  {icon:'🤖',name:'Machine Learning',   line:'Model, CV, evaluation, notebook',   price:'$75–100',turn:'3–5 hours',hook:'Full notebook'},
+  {icon:'🔍',name:'Full Data Analysis', line:'EDA + visualizations + write-up',   price:'$50–75', turn:'2–4 hours',hook:'Professor-ready'},
+  {icon:'✍️',name:'Essay / Thesis',    line:'Restructure + sharpen + fix flow',   price:'$25–50', turn:'Same day', hook:'Your ideas, clearer'},
 ];
+const SUBREDDITS = ['r/HomeworkHelp','r/learnpython','r/statistics','r/datascience','r/college','r/AskStatistics','r/learnmachinelearning','r/Python','r/dataanalysis','r/AskAcademia','r/GradSchool','r/mlquestions'];
+const MODE_INFO  = {urgent:'Short, punchy, same-day offer',longterm:'Semester-long tutoring package',group:'Group project split pricing',lowkey:'No promo link — anti-ban for strict subs',dm:'Ultra-short private message'};
 
-const SUBREDDITS = [
-  'r/HomeworkHelp','r/learnpython','r/statistics','r/datascience',
-  'r/college','r/AskStatistics','r/learnmachinelearning','r/Python',
-  'r/dataanalysis','r/AskAcademia','r/GradSchool','r/mlquestions',
-];
-
-// ════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════════
 //  INIT
-// ════════════════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
+// ════════════════════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
   loadProfile();
   loadStats();
   loadSignals();
   renderServices();
   renderSubreddits();
-  checkSetupStatus();
-  setInterval(loadStats, 30000);
-  setInterval(pollScanStatus, 5000);
+  checkCaps();
+  renderHeatmap();
+  setInterval(loadStats, 20000);
+  setInterval(pollScan,  4000);
 });
 
-// ════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════════
 //  NAVIGATION
-// ════════════════════════════════════════════════════════════════════════
-function showPage(page) {
-  currentPage = page;
-  document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-  document.getElementById('page' + capitalize(page)).classList.add('active');
-  const navMap = {signals:'navSignals', services:'navServices', howto:'navHowto'};
-  if(navMap[page]) document.getElementById(navMap[page]).classList.add('active');
+// ════════════════════════════════════════════════════════════════════════════
+function showPage(p){
+  currentPage=p;
+  document.querySelectorAll('.page-section').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el=>el.classList.remove('active'));
+  const pg=document.getElementById('page'+p.charAt(0).toUpperCase()+p.slice(1));
+  if(pg) pg.classList.add('active');
+  const nb={'signals':'navSignals','heatmap':'navHeatmap','services':'navServices','howto':'navHowto'};
+  if(nb[p]) document.getElementById(nb[p]).classList.add('active');
+  if(p==='heatmap') renderHeatmap();
 }
-function capitalize(s){ return s.charAt(0).toUpperCase()+s.slice(1) }
 
-// ════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════════
 //  PROFILE
-// ════════════════════════════════════════════════════════════════════════
-async function loadProfile() {
-  try {
-    const r = await fetch('/api/profile');
-    const p = await r.json();
-    document.getElementById('topName').textContent = p.name || 'Steve Kaks';
-    document.getElementById('topLoc').textContent  = p.location || 'Kiambu, Kenya';
-    const parts = (p.name||'').split(' ');
-    document.getElementById('avatarInitials').textContent =
-      (parts[0]?.[0]||'') + (parts[1]?.[0]||'');
-  } catch(e){}
+// ════════════════════════════════════════════════════════════════════════════
+async function loadProfile(){
+  try{
+    const p=await(await fetch('/api/profile')).json();
+    document.getElementById('topName').textContent=p.name||'Steve Kaks';
+    const parts=(p.name||'').split(' ');
+    document.getElementById('avatarEl').textContent=(parts[0]?.[0]||'')+(parts[1]?.[0]||'');
+  }catch(e){}
 }
 
-// ════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════════
+//  CAPABILITIES
+// ════════════════════════════════════════════════════════════════════════════
+async function checkCaps(){
+  try{
+    const c=await(await fetch('/api/capabilities')).json();
+    setPill('capReddit',  c.reddit_scan);
+    setPill('capTwitter', c.twitter_scan);
+    setPill('capAI',      c.ai_replies);
+    if(c.reddit_scan) markStep('stepReddit');
+    if(c.twitter_scan) markStep('stepTwitter');
+    if(c.ai_replies)  markStep('stepGroq');
+    if(c.reddit_scan && c.twitter_scan && c.ai_replies)
+      document.getElementById('setupBanner').style.display='none';
+  }catch(e){}
+}
+function setPill(id,on){
+  const el=document.getElementById(id);
+  el.className='cap-pill '+(on?'on':'off');
+}
+function markStep(id){
+  const el=document.getElementById(id);
+  if(el){ el.className='setup-step step-done'; el.innerHTML='<i class="fa-solid fa-check"></i>'+el.textContent.trim()+' ✓'; }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
 //  STATS
-// ════════════════════════════════════════════════════════════════════════
-async function loadStats() {
-  try {
-    const r = await fetch('/api/stats');
-    const s = await r.json();
-    document.getElementById('statTotal').textContent    = s.total;
-    document.getElementById('statNew').textContent      = s.new;
-    document.getElementById('statDrafted').textContent  = s.drafted;
-    document.getElementById('statSent').textContent     = s.sent;
-    document.getElementById('statConverted').textContent= s.converted;
-    document.getElementById('statHot').textContent      = s.high_urgency;
-    document.getElementById('newBadge').textContent     = s.new;
-    renderServiceBreakdown(s.service_breakdown || {});
-  } catch(e){}
+// ════════════════════════════════════════════════════════════════════════════
+async function loadStats(){
+  try{
+    const s=await(await fetch('/api/stats')).json();
+    setText('stTotal',s.total);setText('stNew',s.new);setText('stDrafted',s.drafted);
+    setText('stSent',s.sent);setText('stConverted',s.converted);setText('stHot',s.high_urgency);
+    setText('stResp',s.response_rate);setText('stConvRate',s.conversion_rate);
+    document.getElementById('newBadge').textContent=s.new;
+    renderBreakdown(s.service_breakdown||{});
+  }catch(e){}
+}
+function setText(id,v){const el=document.getElementById(id);if(el)el.textContent=v??'—';}
+function renderBreakdown(bd){
+  const el=document.getElementById('svcBreakdown');
+  const entries=Object.entries(bd).sort((a,b)=>b[1]-a[1]);
+  if(!entries.length){el.innerHTML='<div style="font-size:11px;color:var(--muted)">No data yet</div>';return;}
+  const max=entries[0][1];
+  const colors=['','green','orange','purple','',''];
+  el.innerHTML=entries.map(([k,v],i)=>`
+    <div class="mini-bar">
+      <div class="mb-label">${k}</div>
+      <div class="mb-track"><div class="mb-fill ${colors[i]||''}" style="width:${Math.round(v/max*100)}%"></div></div>
+      <div class="mb-count">${v}</div>
+    </div>`).join('');
 }
 
-function renderServiceBreakdown(breakdown) {
-  const container = document.getElementById('serviceBreakdown');
-  const entries = Object.entries(breakdown).sort((a,b) => b[1]-a[1]);
-  if(!entries.length){ container.innerHTML='<div style="color:var(--muted);font-size:12px">No data yet</div>'; return; }
-  const max = entries[0][1];
-  container.innerHTML = entries.map(([svc, count]) => `
-    <div class="mini-bar-item">
-      <div class="bar-label">${svc}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(count/max*100)}%"></div></div>
-      <div class="bar-count">${count}</div>
-    </div>
-  `).join('');
-}
-
-// ════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════════
 //  SIGNALS
-// ════════════════════════════════════════════════════════════════════════
-async function loadSignals() {
-  try {
-    const r = await fetch('/api/signals?limit=100');
-    allSignals = await r.json();
-    renderSignals();
-    loadStats();
-  } catch(e) {
-    document.getElementById('signalsList').innerHTML =
-      '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><h3>Could not load signals</h3><p>Check the server is running.</p></div>';
+// ════════════════════════════════════════════════════════════════════════════
+async function loadSignals(){
+  try{
+    ALL_SIGNALS=await(await fetch('/api/signals?limit=100')).json();
+    renderSignals();loadStats();
+  }catch(e){
+    document.getElementById('signalsList').innerHTML=`<div class="empty"><i class="fa-solid fa-triangle-exclamation"></i><h3>Could not load signals</h3><p>Server might be starting up — try refreshing.</p></div>`;
   }
 }
 
-function filterSignals(status, el) {
-  activeFilter = status;
-  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+function setFilter(status,el){
+  activeFilter=status;
+  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   renderSignals();
 }
 
-function renderSignals() {
-  const search  = (document.getElementById('searchInput')?.value || '').toLowerCase();
-  const sortBy  = document.getElementById('sortSelect')?.value || 'urgency';
-  let signals   = [...allSignals];
-
-  if(activeFilter !== 'all') signals = signals.filter(s => s.status === activeFilter);
-  if(search) signals = signals.filter(s =>
-    s.title.toLowerCase().includes(search) ||
-    s.body.toLowerCase().includes(search) ||
-    s.subreddit.toLowerCase().includes(search) ||
-    (s.detected_service||'').toLowerCase().includes(search)
-  );
-  if(sortBy === 'urgency') signals.sort((a,b) => b.urgency_score - a.urgency_score);
-  else signals.sort((a,b) => (b.detected_at||'').localeCompare(a.detected_at||''));
-
-  const container = document.getElementById('signalsList');
-  if(!signals.length) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <i class="fa-solid fa-satellite-dish"></i>
-        <h3>No signals found</h3>
-        <p>Click "Demo Signals" to populate with realistic examples, or connect Reddit API to scan live.</p>
-        <button class="btn btn-primary" onclick="scanDemo()"><i class="fa-solid fa-flask"></i> Add Demo Signals</button>
-      </div>`;
+function renderSignals(){
+  const search=(document.getElementById('searchInput')?.value||'').toLowerCase();
+  const sort  =document.getElementById('sortSelect')?.value||'urgency';
+  const tag   =document.getElementById('tagSelect')?.value||'';
+  const src   =document.getElementById('sourceSelect')?.value||'';
+  let sigs=[...ALL_SIGNALS];
+  if(activeFilter!=='all') sigs=sigs.filter(s=>s.status===activeFilter);
+  if(tag)    sigs=sigs.filter(s=>(s.subject_tag||'')===tag);
+  if(src)    sigs=sigs.filter(s=>(s.source||'')=== src);
+  if(search) sigs=sigs.filter(s=>
+    (s.title+' '+s.body+' '+s.subreddit+' '+(s.detected_service||'')).toLowerCase().includes(search));
+  if(sort==='urgency') sigs.sort((a,b)=>b.urgency_score-a.urgency_score);
+  else sigs.sort((a,b)=>(b.detected_at||'').localeCompare(a.detected_at||''));
+  const el=document.getElementById('signalsList');
+  if(!sigs.length){
+    el.innerHTML=`<div class="empty"><i class="fa-solid fa-satellite-dish"></i><h3>No signals found</h3><p>Click "Demo" to add signals, or connect Reddit/Twitter to scan live.</p><button class="btn btn-primary btn-sm" onclick="scanDemo()"><i class="fa-solid fa-flask"></i>Add Demo Signals</button></div>`;
     return;
   }
-  container.innerHTML = signals.map(s => renderSignalCard(s)).join('');
+  el.innerHTML=sigs.map(renderCard).join('');
 }
 
-function urgencyClass(score) {
-  if(score >= 30) return 'urgency-high';
-  if(score >= 15) return 'urgency-med';
-  return 'urgency-low';
+function urgencyClass(n){return n>=30?'hot':n>=15?'warm':'cool';}
+function timeAgo(iso){
+  if(!iso)return'';
+  const d=Math.floor((Date.now()-new Date(iso))/1000);
+  if(d<60)return d+'s ago';if(d<3600)return Math.floor(d/60)+'m ago';
+  if(d<86400)return Math.floor(d/3600)+'h ago';return Math.floor(d/86400)+'d ago';
 }
-function urgencyLabel(score) {
-  if(score >= 30) return `🔥 Hot ${score}`;
-  if(score >= 15) return `⚡ ${score}`;
-  return `✓ ${score}`;
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function tagColor(tag){const m={'Data Science':'tag-ds','Writing':'tag-wr','Debugging':'tag-dbg','General':'tag-gen'};return m[tag]||'tag-gen';}
+function srcTag(src){
+  if(src==='twitter')return`<span class="tag tag-src-twitter"><i class="fa-brands fa-x-twitter"></i>Twitter/X</span>`;
+  if(src==='reddit') return`<span class="tag tag-src-reddit"><i class="fa-brands fa-reddit"></i>Reddit</span>`;
+  return'';
 }
-function timeAgo(iso) {
-  if(!iso) return '';
-  const diff = Math.floor((Date.now() - new Date(iso)) / 1000);
-  if(diff < 60) return `${diff}s ago`;
-  if(diff < 3600) return `${Math.floor(diff/60)}m ago`;
-  if(diff < 86400) return `${Math.floor(diff/3600)}h ago`;
-  return `${Math.floor(diff/86400)}d ago`;
+function repliedBadge(r){
+  if(r===true) return`<span class="replied-badge rb-yes">✓ Replied</span>`;
+  if(r===false)return`<span class="replied-badge rb-no">✗ No reply</span>`;
+  return'';
 }
 
-function renderSignalCard(s) {
-  const uc   = urgencyClass(s.urgency_score);
-  const ul   = urgencyLabel(s.urgency_score);
-  const ta   = timeAgo(s.detected_at);
-  const stag = `<span class="tag tag-${s.status}">${s.status}</span>`;
-  const demo = s.is_demo ? `<span class="tag tag-demo">demo</span>` : '';
-  const reply = s.ai_reply ? `
-    <div class="reply-area visible" id="reply-${s.id}">
-      <div class="reply-label"><i class="fa-solid fa-robot"></i> AI Reply Draft</div>
-      <textarea class="reply-text" id="replyText-${s.id}">${escHtml(s.ai_reply)}</textarea>
-      <div class="reply-actions">
-        <button class="btn btn-green btn-sm copy-btn" id="copyBtn-${s.id}" onclick="copyReply('${s.id}')"><i class="fa-solid fa-copy"></i> Copy Reply</button>
-        <button class="btn btn-secondary btn-sm" onclick="regenerateReply('${s.id}')"><i class="fa-solid fa-rotate"></i> Regenerate</button>
-      </div>
-    </div>` : `<div class="reply-area" id="reply-${s.id}"></div>`;
-
-  return `
-  <div class="signal-card ${uc}" id="card-${s.id}" onclick="toggleCard('${s.id}', event)">
-    <div class="sc-header">
+function renderCard(s){
+  const uc=urgencyClass(s.urgency_score);
+  const upLabel=s.urgency_score>=30?`🔥 ${s.urgency_score}`:s.urgency_score>=15?`⚡ ${s.urgency_score}`:`✓ ${s.urgency_score}`;
+  const existingReply=s.ai_reply||s.reply_variants?.urgent||'';
+  const existingDM=s.ai_dm||s.reply_variants?.dm||'';
+  const replyZone=existingReply?`
+    <div class="reply-zone" id="rz-${s.id}">
+      ${buildReplyZone(s.id,existingReply,existingDM,s.reply_variants||{})}
+    </div>`:`<div class="reply-zone" id="rz-${s.id}" style="display:none"></div>`;
+  return`
+  <div class="sc" id="sc-${s.id}">
+    <div class="sc-stripe h-${uc}"></div>
+    <div class="sc-top" onclick="toggleCard('${s.id}',event)">
       <div class="sc-meta">
-        <div class="sc-title">${escHtml(s.title)}</div>
+        <div class="sc-title">${esc(s.title)}</div>
         <div class="sc-tags">
-          <span class="tag tag-sub">r/${s.subreddit}</span>
-          <span class="tag tag-svc">${s.detected_service}</span>
-          <span class="tag tag-price">${s.suggested_price}</span>
-          ${stag}${demo}
+          ${srcTag(s.source)}
+          <span class="tag tag-sub">r/${esc(s.subreddit)}</span>
+          <span class="tag tag-svc">${esc(s.detected_service)}</span>
+          <span class="tag tag-price">${esc(s.suggested_price)}</span>
+          <span class="tag ${tagColor(s.subject_tag)}">${esc(s.subject_tag||'General')}</span>
+          <span class="tag tag-${s.status}">${s.status}</span>
+          ${s.is_demo?'<span class="tag tag-demo">demo</span>':''}
         </div>
-        <div class="sc-time">${ta} • by u/${escHtml(s.author)} • score: ${s.reddit_score}</div>
+        <div class="sc-info">
+          <span>${timeAgo(s.detected_at)}</span>
+          <span>u/${esc(s.author)}</span>
+          <span>score: ${s.reddit_score}</span>
+          ${repliedBadge(s.replied_to)}
+        </div>
       </div>
-      <div class="urgency-pill">${ul}</div>
+      <div class="sc-right">
+        <div class="urgency-pill up-${uc}">${upLabel}</div>
+      </div>
     </div>
     <div class="sc-body">
-      <div class="sc-excerpt">"${escHtml(s.body)}"</div>
-      <div class="sc-actions">
-        <a href="${s.url}" target="_blank" class="btn btn-secondary btn-sm"><i class="fa-brands fa-reddit"></i> Open Post</a>
-        <button class="btn btn-primary btn-sm" onclick="draftReply('${s.id}', event)"><i class="fa-solid fa-robot"></i> Draft Reply</button>
+      <div class="sc-excerpt">"${esc(s.body)}"</div>
+      <div class="quick-actions">
+        <a href="${esc(s.url)}" target="_blank" class="btn btn-secondary btn-sm" onclick="event.stopPropagation()">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>Open Post
+        </a>
+        <button class="btn btn-primary btn-sm" onclick="draftSignal('${s.id}','urgent',event)">
+          <i class="fa-solid fa-robot"></i>Draft Reply
+        </button>
+        <button class="btn btn-purple btn-sm" onclick="draftAllModes('${s.id}',event)">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>All Modes
+        </button>
       </div>
-      <div class="status-change">
+      <div class="status-row">
         <span>Status:</span>
-        ${['new','drafted','sent','converted','ignored'].map(st =>
-          `<button class="btn btn-secondary btn-sm ${s.status===st?'active':''}" onclick="setStatus('${s.id}','${st}', event)">${st}</button>`
-        ).join('')}
-        <button class="btn btn-secondary btn-sm btn-icon" onclick="deleteSignal('${s.id}', event)" title="Delete"><i class="fa-solid fa-trash" style="color:var(--red)"></i></button>
+        ${['new','drafted','sent','converted','ignored'].map(st=>`
+          <button class="btn btn-secondary btn-xs${s.status===st?' btn-primary':''}" onclick="setStatus('${s.id}','${st}',event)">${st}</button>`).join('')}
+        <button class="btn btn-red btn-xs" onclick="deleteSignal('${s.id}',event)" title="Delete"><i class="fa-solid fa-trash"></i></button>
       </div>
-      ${reply}
+      <div class="replied-row">
+        <span>Got reply?</span>
+        <button class="btn btn-green btn-xs" onclick="setReplied('${s.id}',true,event)"><i class="fa-solid fa-check"></i>Yes</button>
+        <button class="btn btn-red btn-xs"   onclick="setReplied('${s.id}',false,event)"><i class="fa-solid fa-xmark"></i>No</button>
+        <button class="btn btn-secondary btn-xs" onclick="setReplied('${s.id}',null,event)">Clear</button>
+      </div>
+      ${replyZone}
     </div>
   </div>`;
 }
 
-function toggleCard(id, event) {
-  if(event.target.closest('button,a,textarea,select')) return;
-  const card = document.getElementById('card-'+id);
-  card.classList.toggle('expanded');
+function buildReplyZone(id, urgent, dm, variants){
+  const modes=['urgent','longterm','group','lowkey','dm'];
+  const tabs=modes.map(m=>`<button class="mode-tab${m==='urgent'?' active':''}" onclick="switchMode('${id}','${m}',event)">${m}</button>`).join('');
+  const allVariants={urgent,dm,...variants};
+  const textareaId=`rt-${id}`;
+  return`
+    <div class="reply-zone-header">
+      <div class="rz-label"><i class="fa-solid fa-robot"></i>AI Reply Draft</div>
+      <div class="mode-tabs">${tabs}</div>
+    </div>
+    <div class="reply-zone-body" id="rzb-${id}">
+      <textarea class="reply-textarea" id="${textareaId}">${esc(allVariants.urgent||'')}</textarea>
+      <div class="reply-actions-row">
+        <button class="btn btn-green btn-sm" id="copyBtn-${id}" onclick="copyReply('${id}',event)"><i class="fa-solid fa-copy"></i>Copy Reply</button>
+        <button class="btn btn-purple btn-sm" id="copyDmBtn-${id}" onclick="copyDm('${id}',event)"><i class="fa-solid fa-envelope"></i>Copy as DM</button>
+        <a href="#" id="openBtn-${id}" target="_blank" class="btn btn-secondary btn-sm" onclick="openPost('${id}',event)"><i class="fa-brands fa-reddit"></i>Open Post</a>
+        <button class="btn btn-secondary btn-sm" onclick="draftSignal('${id}','urgent',event)"><i class="fa-solid fa-rotate"></i>Regenerate</button>
+      </div>
+    </div>
+    <script>window.__variants_${id.replace(/-/g,'_')}=${JSON.stringify({...allVariants,dm:dm||''})}<\/script>`;
 }
 
-function escHtml(s) {
-  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ════════════════════════════════════════════════════════════════════════
-//  ACTIONS
-// ════════════════════════════════════════════════════════════════════════
-async function draftReply(id, event) {
+function switchMode(id, mode, event){
   event.stopPropagation();
-  const card = document.getElementById('card-'+id);
-  card.classList.add('expanded');
-  const replyArea = document.getElementById('reply-'+id);
-  replyArea.classList.add('visible');
-  replyArea.innerHTML = '<div class="reply-label"><i class="fa-solid fa-robot"></i> Generating…</div><div class="spinner"></div>';
-  try {
-    const r = await fetch(`/api/signals/${id}/draft`, {method:'POST'});
-    const d = await r.json();
-    replyArea.innerHTML = `
-      <div class="reply-label"><i class="fa-solid fa-robot"></i> AI Reply Draft</div>
-      <textarea class="reply-text" id="replyText-${id}">${escHtml(d.reply)}</textarea>
-      <div class="reply-actions">
-        <button class="btn btn-green btn-sm copy-btn" id="copyBtn-${id}" onclick="copyReply('${id}')"><i class="fa-solid fa-copy"></i> Copy Reply</button>
-        <button class="btn btn-secondary btn-sm" onclick="regenerateReply('${id}')"><i class="fa-solid fa-rotate"></i> Regenerate</button>
-      </div>`;
-    // update status badge in card
-    const sig = allSignals.find(s => s.id === id);
-    if(sig){ sig.ai_reply = d.reply; sig.status = 'drafted'; }
-    toast('Reply drafted! Copy and paste it on Reddit.', 'success');
-  } catch(e) {
-    replyArea.innerHTML = '<div style="color:var(--red);font-size:13px">Error generating reply.</div>';
-  }
-}
-
-async function regenerateReply(id) {
-  const sig = allSignals.find(s => s.id === id);
-  if(sig) sig.ai_reply = null;
-  await draftReply(id, {stopPropagation:()=>{}});
-}
-
-function copyReply(id) {
-  const ta = document.getElementById('replyText-'+id);
-  if(!ta) return;
-  navigator.clipboard.writeText(ta.value).then(() => {
-    const btn = document.getElementById('copyBtn-'+id);
-    btn.classList.add('copied');
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-    setTimeout(() => {
-      btn.classList.remove('copied');
-      btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copy Reply';
-    }, 2500);
-    toast('Reply copied! Paste it on Reddit now.', 'success');
-  });
-}
-
-async function setStatus(id, status, event) {
-  event.stopPropagation();
-  await fetch(`/api/signals/${id}/status`, {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({status})
-  });
-  const sig = allSignals.find(s => s.id === id);
-  if(sig){ sig.status = status; }
-  renderSignals();
-  loadStats();
-  toast(`Marked as "${status}"`, 'info');
-}
-
-async function deleteSignal(id, event) {
-  event.stopPropagation();
-  if(!confirm('Delete this signal?')) return;
-  await fetch(`/api/signals/${id}`, {method:'DELETE'});
-  allSignals = allSignals.filter(s => s.id !== id);
-  renderSignals();
-  loadStats();
-}
-
-async function scanDemo() {
-  toast('Generating demo signals…', 'info');
-  const r = await fetch('/api/scan/demo', {method:'POST'});
-  const d = await r.json();
-  toast(`Added ${d.count} demo signals!`, 'success');
-  await loadSignals();
-}
-
-async function scanLive() {
-  const badge = document.getElementById('scanBadge');
-  badge.classList.add('scanning');
-  document.getElementById('scanText').textContent = 'Scanning Reddit…';
-  toast('Scanning Reddit for signals…', 'info');
-  try {
-    await fetch('/api/scan', {method:'POST'});
-    setTimeout(async () => {
-      await loadSignals();
-      badge.classList.remove('scanning');
-      document.getElementById('scanText').textContent = 'Live';
-    }, 4000);
-  } catch(e) {
-    badge.classList.remove('scanning');
-    toast('Scan failed — check Reddit credentials', 'error');
-  }
-}
-
-async function draftAll() {
-  toast('Generating AI drafts for all new signals…', 'info');
-  const r = await fetch('/api/draft-all', {method:'POST'});
-  const d = await r.json();
-  toast(`Drafted ${d.drafted} replies!`, 'success');
-  await loadSignals();
-}
-
-async function pollScanStatus() {
-  try {
-    const r = await fetch('/api/scan/status');
-    const s = await r.json();
-    const badge = document.getElementById('scanBadge');
-    const txt   = document.getElementById('scanText');
-    if(s.running) {
-      badge.classList.add('scanning');
-      txt.textContent = 'Scanning…';
-    } else {
-      badge.classList.remove('scanning');
-      txt.textContent = s.mode === 'live' ? 'Live • Reddit' : 'Demo mode';
-    }
-  } catch(e){}
-}
-
-// ════════════════════════════════════════════════════════════════════════
-//  SETUP CHECK
-// ════════════════════════════════════════════════════════════════════════
-async function checkSetupStatus() {
-  try {
-    const r = await fetch('/api/settings');
-    const s = await r.json();
-    if(s.has_reddit) {
-      document.getElementById('stepReddit').className = 'setup-step done';
-      document.getElementById('stepReddit').innerHTML = '<i class="fa-solid fa-check"></i> Reddit API ✓';
-    }
-    if(s.has_groq) {
-      document.getElementById('stepGroq').className = 'setup-step done';
-      document.getElementById('stepGroq').innerHTML = '<i class="fa-solid fa-check"></i> Groq AI ✓';
-    }
-    if(s.has_reddit && s.has_groq) {
-      document.getElementById('setupBanner').style.display = 'none';
-    }
-  } catch(e){}
-}
-
-// ════════════════════════════════════════════════════════════════════════
-//  SETTINGS MODAL
-// ════════════════════════════════════════════════════════════════════════
-async function openSettings() {
-  try {
-    const r = await fetch('/api/settings');
-    const s = await r.json();
-    if(s.your_name)      document.getElementById('sName').value      = s.your_name;
-    if(s.your_email)     document.getElementById('sEmail').value     = s.your_email;
-    if(s.your_phone)     document.getElementById('sPhone').value     = s.your_phone;
-    if(s.your_portfolio) document.getElementById('sPortfolio').value = s.your_portfolio;
-  } catch(e){}
-  document.getElementById('settingsModal').classList.add('open');
-}
-function closeSettings() { document.getElementById('settingsModal').classList.remove('open'); }
-document.getElementById('settingsModal').addEventListener('click', e => {
-  if(e.target === document.getElementById('settingsModal')) closeSettings();
-});
-
-async function saveSettings() {
-  const body = {
-    your_name:      document.getElementById('sName').value,
-    your_email:     document.getElementById('sEmail').value,
-    your_phone:     document.getElementById('sPhone').value,
-    your_portfolio: document.getElementById('sPortfolio').value,
-  };
-  const g = document.getElementById('sGroq').value.trim();
-  const ri = document.getElementById('sRedditId').value.trim();
-  const rs = document.getElementById('sRedditSecret').value.trim();
-  if(g)  body.groq_api_key = g;
-  if(ri) body.reddit_client_id = ri;
-  if(rs) body.reddit_client_secret = rs;
-  const r = await fetch('/api/settings', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify(body)
-  });
-  if(r.ok) {
-    closeSettings();
-    toast('Settings saved!', 'success');
-    loadProfile();
-    checkSetupStatus();
+  const rzbEl=document.getElementById(`rzb-${id}`);
+  if(!rzbEl) return;
+  const key=`window.__variants_${id.replace(/-/g,'_')}`;
+  const variants=eval(key.replace('window.',''));
+  const ta=document.getElementById(`rt-${id}`);
+  if(variants&&variants[mode]){
+    if(ta) ta.value=variants[mode];
   } else {
-    toast('Error saving settings', 'error');
+    // need to generate this mode
+    draftSignal(id, mode, event);
+    return;
+  }
+  rzbEl.querySelectorAll('.mode-tab').forEach(t=>{
+    t.classList.toggle('active', t.textContent===mode);
+  });
+}
+
+function toggleCard(id,event){
+  if(event.target.closest('button,a,textarea,select')) return;
+  document.getElementById('sc-'+id)?.classList.toggle('expanded');
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  DRAFT ACTIONS
+// ════════════════════════════════════════════════════════════════════════════
+async function draftSignal(id, mode='urgent', event){
+  event?.stopPropagation();
+  const sc=document.getElementById('sc-'+id);
+  sc?.classList.add('expanded');
+  const rz=document.getElementById('rz-'+id);
+  if(rz){
+    rz.style.display='block';
+    rz.innerHTML=`<div class="rz-label"><i class="fa-solid fa-robot"></i>Generating ${mode} reply…</div><div class="spinner"></div>`;
+  }
+  try{
+    const r=await fetch(`/api/signals/${id}/draft`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode})});
+    const d=await r.json();
+    const sig=ALL_SIGNALS.find(s=>s.id===id);
+    if(sig){
+      if(!sig.reply_variants) sig.reply_variants={};
+      sig.reply_variants[mode]=d.reply;
+      if(mode==='urgent') sig.ai_reply=d.reply;
+      if(mode==='dm')     sig.ai_dm=d.reply;
+      sig.status='drafted';
+    }
+    if(rz) rz.innerHTML=buildReplyZone(id, sig?.ai_reply||d.reply, sig?.ai_dm||'', sig?.reply_variants||{});
+    toast('Reply drafted! Choose a mode and copy.','success');
+  }catch(e){
+    if(rz) rz.innerHTML=`<div style="color:var(--red);font-size:12px">Error generating reply.</div>`;
   }
 }
 
-// ════════════════════════════════════════════════════════════════════════
-//  RENDER SERVICES / SUBREDDITS
-// ════════════════════════════════════════════════════════════════════════
-function renderServices() {
-  const g = document.getElementById('servicesGrid');
-  g.innerHTML = SERVICES.map(s => `
-    <div class="service-card">
+async function draftAllModes(id, event){
+  event?.stopPropagation();
+  const sc=document.getElementById('sc-'+id);
+  sc?.classList.add('expanded');
+  const rz=document.getElementById('rz-'+id);
+  if(rz){rz.style.display='block';rz.innerHTML=`<div class="rz-label"><i class="fa-solid fa-robot"></i>Generating all 5 modes…</div><div class="spinner"></div>`;}
+  try{
+    const r=await fetch(`/api/signals/${id}/draft-all-modes`,{method:'POST'});
+    const d=await r.json();
+    const sig=ALL_SIGNALS.find(s=>s.id===id);
+    if(sig){sig.reply_variants=d.variants;sig.ai_reply=d.variants.urgent;sig.ai_dm=d.variants.dm;sig.status='drafted';}
+    if(rz) rz.innerHTML=buildReplyZone(id, d.variants.urgent, d.variants.dm, d.variants);
+    toast('All 5 reply modes ready!','success');
+  }catch(e){
+    if(rz) rz.innerHTML=`<div style="color:var(--red);font-size:12px">Error.</div>`;
+  }
+}
+
+function copyReply(id, event){
+  event?.stopPropagation();
+  const ta=document.getElementById(`rt-${id}`);
+  if(!ta) return;
+  navigator.clipboard.writeText(ta.value).then(()=>{
+    const btn=document.getElementById(`copyBtn-${id}`);
+    if(btn){btn.classList.add('copied-btn');btn.innerHTML='<i class="fa-solid fa-check"></i>Copied!';}
+    setTimeout(()=>{if(btn){btn.classList.remove('copied-btn');btn.innerHTML='<i class="fa-solid fa-copy"></i>Copy Reply';}},2500);
+    toast('Reply copied — paste it on Reddit now!','success');
+  });
+}
+
+function copyDm(id, event){
+  event?.stopPropagation();
+  const sig=ALL_SIGNALS.find(s=>s.id===id);
+  const text=sig?.ai_dm||sig?.reply_variants?.dm||document.getElementById(`rt-${id}`)?.value||'';
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById(`copyDmBtn-${id}`);
+    if(btn){btn.classList.add('copied-btn');btn.innerHTML='<i class="fa-solid fa-check"></i>DM Copied!';}
+    setTimeout(()=>{if(btn){btn.classList.remove('copied-btn');btn.innerHTML='<i class="fa-solid fa-envelope"></i>Copy as DM';}},2500);
+    toast('DM copied — slide into their chat!','success');
+  });
+}
+
+function openPost(id, event){
+  event?.stopPropagation();
+  const sig=ALL_SIGNALS.find(s=>s.id===id);
+  if(sig?.url && sig.url!=='#') window.open(sig.url,'_blank');
+  return false;
+}
+
+async function setStatus(id, status, event){
+  event?.stopPropagation();
+  await fetch(`/api/signals/${id}/status`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({status})});
+  const sig=ALL_SIGNALS.find(s=>s.id===id);
+  if(sig) sig.status=status;
+  renderSignals();loadStats();
+  toast(`Marked as "${status}"`, status==='converted'?'success':'info');
+}
+
+async function setReplied(id, replied, event){
+  event?.stopPropagation();
+  await fetch(`/api/signals/${id}/replied`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({replied_to:replied})});
+  const sig=ALL_SIGNALS.find(s=>s.id===id);
+  if(sig) sig.replied_to=replied;
+  renderSignals();loadStats();
+  if(replied===true) toast('Logged as replied ✓','success');
+  else if(replied===false) toast('Logged as no reply','info');
+}
+
+async function deleteSignal(id, event){
+  event?.stopPropagation();
+  if(!confirm('Delete this signal?')) return;
+  await fetch(`/api/signals/${id}`,{method:'DELETE'});
+  ALL_SIGNALS=ALL_SIGNALS.filter(s=>s.id!==id);
+  renderSignals();loadStats();
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  SCAN ACTIONS
+// ════════════════════════════════════════════════════════════════════════════
+async function scanDemo(){
+  toast('Adding demo signals…','info');
+  const d=await(await fetch('/api/scan/demo',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({n:5})})).json();
+  toast(`Added ${d.count} demo signals!`,'success');
+  await loadSignals();
+}
+async function scanReddit(){
+  toast('Scanning Reddit for student signals…','info');
+  await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sources:['reddit']})});
+  setTimeout(()=>{loadSignals();checkCaps();},4000);
+}
+async function scanTwitter(){
+  toast('Scanning Twitter/X…','info');
+  await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sources:['twitter']})});
+  setTimeout(()=>{loadSignals();checkCaps();},4000);
+}
+async function draftAll(){
+  toast('Generating AI drafts for all new signals…','info');
+  const d=await(await fetch('/api/draft-all',{method:'POST'})).json();
+  toast(`Drafted ${d.drafted} replies!`,'success');
+  await loadSignals();
+}
+
+async function pollScan(){
+  try{
+    const s=await(await fetch('/api/scan/status')).json();
+    const dot=document.getElementById('scanDot');
+    const txt=document.getElementById('scanText');
+    const lst=document.getElementById('scanLast');
+    if(s.running){dot.classList.add('scanning');txt.textContent='Scanning…';}
+    else{dot.classList.remove('scanning');txt.textContent=s.mode==='live'?'Live scanning active':'Demo mode active';}
+    if(s.last_run) lst.textContent='Last scan: '+timeAgo(s.last_run)+` (${s.last_count} new)`;
+  }catch(e){}
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  HEATMAP
+// ════════════════════════════════════════════════════════════════════════════
+async function renderHeatmap(){
+  try{
+    const hm=await(await fetch('/api/heatmap')).json();
+    const vals=Array.from({length:24},(_, i)=>parseInt(hm[String(i)]||0,10));
+    const max=Math.max(...vals,1);
+    const grid=document.getElementById('hmGrid');
+    const lbls=document.getElementById('hmLabels');
+    if(!grid) return;
+    function heatColor(v,m){
+      const ratio=v/m;
+      if(ratio<0.2) return`rgba(63,185,80,${0.15+ratio})`;
+      if(ratio<0.5) return`rgba(210,153,34,${0.4+ratio*0.4})`;
+      return`rgba(248,81,73,${0.5+ratio*0.5})`;
+    }
+    const labels=['12a','1a','2a','3a','4a','5a','6a','7a','8a','9a','10a','11a','12p','1p','2p','3p','4p','5p','6p','7p','8p','9p','10p','11p'];
+    grid.innerHTML=vals.map((v,i)=>`
+      <div class="hm-cell" style="background:${heatColor(v,max)};height:${28+Math.round(v/max*36)}px">
+        ${v>0?v:''}
+        <div class="hm-tooltip">${labels[i]} — ${v} signals</div>
+      </div>`).join('');
+    lbls.innerHTML=labels.map(l=>`<div class="hm-label">${l}</div>`).join('');
+    // Insights
+    const ins=document.getElementById('hmInsights');
+    if(ins){
+      const sorted=[...vals.map((v,i)=>({h:i,v}))].sort((a,b)=>b.v-a.v);
+      const top3=sorted.slice(0,3).map(x=>`<strong style="color:var(--text)">${labels[x.h]}</strong> (${x.v} signals)`);
+      const worst=sorted.slice(-3).map(x=>labels[x.h]);
+      ins.innerHTML=`
+        🔥 <strong style="color:var(--red)">Best times to be online:</strong> ${top3.join(', ')}<br>
+        🌙 <strong style="color:var(--orange)">Sunday 9–11 PM</strong> is historically the highest window — students panic before Monday deadlines.<br>
+        😴 <strong style="color:var(--muted)">Lowest activity:</strong> ${worst.join(', ')} — you can sleep those hours guilt-free.<br>
+        💡 <strong style="color:var(--accent)">Pro tip:</strong> Open the dashboard at 9 PM, scan Reddit, reply to the top 5 hot signals. Takes 15 minutes, can net you $50–200 per session.`;
+    }
+  }catch(e){}
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  SERVICES + SUBREDDITS
+// ════════════════════════════════════════════════════════════════════════════
+function renderServices(){
+  const g=document.getElementById('svcGrid');
+  if(!g) return;
+  g.innerHTML=SERVICES.map(s=>`
+    <div class="svc-card">
       <div class="svc-icon">${s.icon}</div>
       <div class="svc-name">${s.name}</div>
       <div class="svc-line">${s.line}</div>
       <div class="svc-price">${s.price}</div>
-      <div class="svc-turn"><i class="fa-solid fa-clock"></i> ${s.turn} • ${s.hook}</div>
+      <div class="svc-turn"><i class="fa-solid fa-clock"></i> ${s.turn}</div>
+      <div class="svc-hook"><i class="fa-solid fa-star"></i>${s.hook}</div>
     </div>`).join('');
 }
-
-function renderSubreddits() {
-  const c = document.getElementById('subredditList');
-  c.innerHTML = SUBREDDITS.map(s => `
+function renderSubreddits(){
+  const c=document.getElementById('subList');
+  if(!c) return;
+  c.innerHTML=SUBREDDITS.map(s=>`
     <a href="https://reddit.com/${s}" target="_blank"
-       style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,69,0,.1);
-              border:1px solid rgba(255,69,0,.25);border-radius:20px;padding:4px 12px;
-              font-size:12px;font-weight:600;color:#ff4500;text-decoration:none">
+       style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,69,0,.1);border:1px solid rgba(255,69,0,.25);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:#ff4500">
       <i class="fa-brands fa-reddit"></i>${s}
     </a>`).join('');
 }
 
-// ════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════════
+//  SETTINGS MODAL
+// ════════════════════════════════════════════════════════════════════════════
+async function openSettings(){
+  try{
+    const s=await(await fetch('/api/settings')).json();
+    setValue('sName',s.your_name);setValue('sEmail',s.your_email);
+    setValue('sPhone',s.your_phone);setValue('sPortfolio',s.your_portfolio);
+  }catch(e){}
+  document.getElementById('settingsModal').classList.add('open');
+}
+function closeSettings(){document.getElementById('settingsModal').classList.remove('open');}
+document.getElementById('settingsModal').addEventListener('click',e=>{if(e.target===document.getElementById('settingsModal'))closeSettings();});
+
+async function saveSettings(){
+  const body={
+    your_name:document.getElementById('sName').value,
+    your_email:document.getElementById('sEmail').value,
+    your_phone:document.getElementById('sPhone').value,
+    your_portfolio:document.getElementById('sPortfolio').value,
+  };
+  const g=document.getElementById('sGroq').value.trim();
+  const ri=document.getElementById('sRedditId').value.trim();
+  const rs=document.getElementById('sRedditSec').value.trim();
+  const tw=document.getElementById('sTwitter').value.trim();
+  if(g)  body.groq_api_key=g;
+  if(ri) body.reddit_client_id=ri;
+  if(rs) body.reddit_client_secret=rs;
+  if(tw) body.twitter_bearer_token=tw;
+  const r=await fetch('/api/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(r.ok){
+    closeSettings();
+    toast('Saved! Keys are active immediately — no restart needed.','success');
+    loadProfile();checkCaps();
+  }else toast('Error saving settings','error');
+}
+function setValue(id,v){const el=document.getElementById(id);if(el&&v)el.value=v;}
+
+// ════════════════════════════════════════════════════════════════════════════
 //  TOAST
-// ════════════════════════════════════════════════════════════════════════
-function toast(msg, type='info') {
-  const icons = {success:'fa-check-circle',error:'fa-triangle-exclamation',info:'fa-circle-info'};
-  const colors = {success:'var(--green)',error:'var(--red)',info:'var(--accent)'};
-  const el = document.createElement('div');
-  el.className = `toast ${type}`;
-  el.innerHTML = `<i class="fa-solid ${icons[type]}" style="color:${colors[type]}"></i>${msg}`;
-  document.getElementById('toast-container').appendChild(el);
-  setTimeout(() => el.remove(), 3500);
+// ════════════════════════════════════════════════════════════════════════════
+function toast(msg, type='info'){
+  const icons={success:'fa-circle-check',error:'fa-triangle-exclamation',info:'fa-circle-info'};
+  const cols={success:'var(--green)',error:'var(--red)',info:'var(--accent)'};
+  const el=document.createElement('div');
+  el.className=`toast ${type}`;
+  el.innerHTML=`<i class="fa-solid ${icons[type]}" style="color:${cols[type]}"></i>${msg}`;
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>el.remove(),3800);
 }
 </script>
 </body>

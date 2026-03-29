@@ -1,7 +1,10 @@
 """
-app.py  –  Client Hunter Dashboard  (Stephen Muema / Steve Kaks)
-──────────────────────────────────────────────────────────────────
-100% free Flask backend. No paid services required.
+app.py  –  Client Hunter v2  (Stephen Muema / Steve Kaks)
+──────────────────────────────────────────────────────────
+100% free Flask backend.
+
+Key upgrade: settings saved to .env AND reloaded into os.environ immediately —
+no restart needed after pasting API keys.
 """
 
 import os, json, threading, time
@@ -9,34 +12,45 @@ from datetime import datetime, timezone
 from pathlib import Path
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
-from dotenv import load_dotenv
+from dotenv import load_dotenv, dotenv_values
 
 from signal_detector import (
-    load_signals, save_signals, scan_reddit_live,
-    generate_demo_signals, get_stats,
+    load_signals, save_signals,
+    scan_reddit_live, scan_twitter_live,
+    generate_demo_signals, get_stats, load_heatmap,
 )
-from ai_reply import generate_reply, get_offer_card
+from ai_reply import generate_reply, generate_all_modes, get_offer_card
 
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
-# ── Background scanner state ─────────────────────────────────────────────────
+ENV_PATH = Path(__file__).parent / ".env"
+
+# ── Background scanner state ──────────────────────────────────────────────────
 _scan_lock   = threading.Lock()
 _scan_status = {"running": False, "last_run": None, "last_count": 0, "mode": "demo"}
 
 
-def _run_scan():
+def _run_scan(sources=None):
+    if sources is None:
+        sources = ["reddit", "twitter"]
     with _scan_lock:
         _scan_status["running"] = True
     try:
-        new = scan_reddit_live()
-        has_creds = bool(os.getenv("REDDIT_CLIENT_ID","").strip())
+        new = []
+        if "reddit" in sources:
+            new += scan_reddit_live()
+        if "twitter" in sources:
+            new += scan_twitter_live()
+        has_reddit  = bool(os.getenv("REDDIT_CLIENT_ID","").strip())
+        has_twitter = bool(os.getenv("TWITTER_BEARER_TOKEN","").strip())
+        mode = "live" if (has_reddit or has_twitter) else "demo"
         _scan_status.update({
             "last_run":   datetime.now(timezone.utc).isoformat(),
             "last_count": len(new),
-            "mode":       "live" if has_creds else "demo",
+            "mode":       mode,
         })
     finally:
         with _scan_lock:
@@ -51,6 +65,14 @@ def _start_auto_scan(interval_min: int = 15):
     threading.Thread(target=loop, daemon=True).start()
 
 
+# ── Env hot-reload helper ─────────────────────────────────────────────────────
+def _reload_env():
+    """Re-read .env and push all values into os.environ immediately."""
+    vals = dotenv_values(ENV_PATH)
+    for k, v in vals.items():
+        os.environ[k] = v or ""
+
+
 # ════════════════════════════════════════════════════════════════════════════
 #  ROUTES
 # ════════════════════════════════════════════════════════════════════════════
@@ -60,17 +82,23 @@ def index():
     return render_template("index.html")
 
 
-# ── Signals ──────────────────────────────────────────────────────────────────
+# ── Signals ───────────────────────────────────────────────────────────────────
 
 @app.route("/api/signals")
 def api_signals():
     signals       = load_signals()
     status_filter = request.args.get("status", "")
-    sort_by       = request.args.get("sort", "urgency")   # urgency | date
-    limit         = int(request.args.get("limit", 60))
+    tag_filter    = request.args.get("tag", "")
+    source_filter = request.args.get("source", "")
+    sort_by       = request.args.get("sort", "urgency")
+    limit         = int(request.args.get("limit", 80))
 
     if status_filter and status_filter != "all":
         signals = [s for s in signals if s.get("status") == status_filter]
+    if tag_filter and tag_filter != "all":
+        signals = [s for s in signals if s.get("subject_tag","").lower() == tag_filter.lower()]
+    if source_filter and source_filter != "all":
+        signals = [s for s in signals if s.get("source","") == source_filter]
 
     if sort_by == "urgency":
         signals = sorted(signals, key=lambda s: s.get("urgency_score", 0), reverse=True)
@@ -97,9 +125,9 @@ def api_signal_delete(sid):
 def api_signal_status(sid):
     data   = request.get_json() or {}
     status = data.get("status", "")
-    valid  = {"new", "drafted", "sent", "converted", "ignored"}
+    valid  = {"new","drafted","sent","converted","ignored"}
     if status not in valid:
-        return jsonify({"error": f"status must be one of {valid}"}), 400
+        return jsonify({"error": f"must be one of {valid}"}), 400
     signals = load_signals()
     for s in signals:
         if s["id"] == sid:
@@ -109,17 +137,58 @@ def api_signal_status(sid):
     return jsonify({"error": "not found"}), 404
 
 
+@app.route("/api/signals/<sid>/replied", methods=["POST"])
+def api_signal_replied(sid):
+    """Track whether the student replied back."""
+    data    = request.get_json() or {}
+    replied = data.get("replied_to")   # True | False | None
+    signals = load_signals()
+    for s in signals:
+        if s["id"] == sid:
+            s["replied_to"] = replied
+            save_signals(signals)
+            return jsonify({"ok": True})
+    return jsonify({"error": "not found"}), 404
+
+
 @app.route("/api/signals/<sid>/draft", methods=["POST"])
 def api_signal_draft(sid):
+    """Generate one reply in requested mode."""
+    data = request.get_json() or {}
+    mode = data.get("mode", "urgent")  # urgent|longterm|group|lowkey|dm
     signals = load_signals()
     sig     = next((s for s in signals if s["id"] == sid), None)
     if not sig:
         return jsonify({"error": "not found"}), 404
-    sig["ai_reply"] = generate_reply(sig)
+
+    reply = generate_reply(sig, mode)
+    # store by mode key
+    if mode == "dm":
+        sig["ai_dm"] = reply
+    else:
+        sig["ai_reply"] = reply
+    sig["reply_mode"] = mode
     if sig["status"] == "new":
         sig["status"] = "drafted"
     save_signals(signals)
-    return jsonify({"ok": True, "reply": sig["ai_reply"]})
+    return jsonify({"ok": True, "reply": reply, "mode": mode})
+
+
+@app.route("/api/signals/<sid>/draft-all-modes", methods=["POST"])
+def api_draft_all_modes(sid):
+    """Generate all 5 reply variants at once."""
+    signals = load_signals()
+    sig     = next((s for s in signals if s["id"] == sid), None)
+    if not sig:
+        return jsonify({"error": "not found"}), 404
+    variants = generate_all_modes(sig)
+    sig["ai_reply"] = variants["urgent"]
+    sig["ai_dm"]    = variants["dm"]
+    sig["reply_variants"] = variants
+    if sig["status"] == "new":
+        sig["status"] = "drafted"
+    save_signals(signals)
+    return jsonify({"ok": True, "variants": variants})
 
 
 @app.route("/api/signals/<sid>/offer")
@@ -127,10 +196,10 @@ def api_signal_offer(sid):
     sig = next((s for s in load_signals() if s["id"] == sid), None)
     if not sig:
         return jsonify({"error": "not found"}), 404
-    return jsonify(get_offer_card(sig.get("detected_service", "General Help")))
+    return jsonify(get_offer_card(sig.get("detected_service","General Help")))
 
 
-# ── Bulk actions ──────────────────────────────────────────────────────────────
+# ── Bulk ──────────────────────────────────────────────────────────────────────
 
 @app.route("/api/draft-all", methods=["POST"])
 def api_draft_all():
@@ -138,7 +207,8 @@ def api_draft_all():
     count   = 0
     for s in signals:
         if s["status"] == "new" and not s.get("ai_reply"):
-            s["ai_reply"] = generate_reply(s)
+            s["ai_reply"] = generate_reply(s, "urgent")
+            s["ai_dm"]    = generate_reply(s, "dm")
             s["status"]   = "drafted"
             count += 1
     save_signals(signals)
@@ -151,14 +221,17 @@ def api_draft_all():
 def api_scan():
     if _scan_status["running"]:
         return jsonify({"ok": False, "message": "Scan already running"})
-    threading.Thread(target=_run_scan, daemon=True).start()
-    return jsonify({"ok": True, "message": "Scan started"})
+    data    = request.get_json() or {}
+    sources = data.get("sources", ["reddit","twitter"])
+    threading.Thread(target=_run_scan, args=(sources,), daemon=True).start()
+    return jsonify({"ok": True, "message": f"Scanning {sources}…"})
 
 
 @app.route("/api/scan/demo", methods=["POST"])
 def api_scan_demo():
-    """Inject fresh demo signals — always works, zero credentials."""
-    new = generate_demo_signals(5)
+    data = request.get_json() or {}
+    n    = int(data.get("n", 5))
+    new  = generate_demo_signals(n)
     return jsonify({"ok": True, "count": len(new)})
 
 
@@ -167,17 +240,23 @@ def api_scan_status():
     return jsonify(_scan_status)
 
 
-# ── Stats ─────────────────────────────────────────────────────────────────────
+# ── Stats + heatmap ───────────────────────────────────────────────────────────
 
 @app.route("/api/stats")
 def api_stats():
     return jsonify(get_stats())
 
 
-# ── Settings ──────────────────────────────────────────────────────────────────
+@app.route("/api/heatmap")
+def api_heatmap():
+    return jsonify(load_heatmap())
+
+
+# ── Settings  (hot-reload: no restart needed) ─────────────────────────────────
 
 @app.route("/api/settings", methods=["GET"])
 def api_settings_get():
+    _reload_env()
     return jsonify({
         "your_name":      os.getenv("YOUR_NAME",      "Stephen Muema (Steve Kaks)"),
         "your_email":     os.getenv("YOUR_EMAIL",     "musyokas753@gmail.com"),
@@ -187,25 +266,26 @@ def api_settings_get():
         "your_github":    os.getenv("YOUR_GITHUB",    "https://github.com/Kaks753"),
         "has_groq":       bool(os.getenv("GROQ_API_KEY","").strip()),
         "has_reddit":     bool(os.getenv("REDDIT_CLIENT_ID","").strip()),
+        "has_twitter":    bool(os.getenv("TWITTER_BEARER_TOKEN","").strip()),
     })
 
 
 @app.route("/api/settings", methods=["POST"])
 def api_settings_save():
-    data     = request.get_json() or {}
-    env_path = Path(__file__).parent / ".env"
-    current  = env_path.read_text().splitlines() if env_path.exists() else []
+    data    = request.get_json() or {}
+    current = ENV_PATH.read_text().splitlines() if ENV_PATH.exists() else []
 
     key_map = {
-        "your_name":      "YOUR_NAME",
-        "your_email":     "YOUR_EMAIL",
-        "your_phone":     "YOUR_PHONE",
-        "your_portfolio": "YOUR_PORTFOLIO",
-        "your_linkedin":  "YOUR_LINKEDIN",
-        "your_github":    "YOUR_GITHUB",
-        "groq_api_key":   "GROQ_API_KEY",
-        "reddit_client_id":     "REDDIT_CLIENT_ID",
-        "reddit_client_secret": "REDDIT_CLIENT_SECRET",
+        "your_name":             "YOUR_NAME",
+        "your_email":            "YOUR_EMAIL",
+        "your_phone":            "YOUR_PHONE",
+        "your_portfolio":        "YOUR_PORTFOLIO",
+        "your_linkedin":         "YOUR_LINKEDIN",
+        "your_github":           "YOUR_GITHUB",
+        "groq_api_key":          "GROQ_API_KEY",
+        "reddit_client_id":      "REDDIT_CLIENT_ID",
+        "reddit_client_secret":  "REDDIT_CLIENT_SECRET",
+        "twitter_bearer_token":  "TWITTER_BEARER_TOKEN",
     }
     updates = {key_map[k]: v for k, v in data.items() if k in key_map and v}
 
@@ -221,15 +301,16 @@ def api_settings_save():
         if k not in seen:
             new_lines.append(f"{k}={v}")
 
-    env_path.write_text("\n".join(new_lines) + "\n")
-    load_dotenv(override=True)
+    ENV_PATH.write_text("\n".join(new_lines) + "\n")
+    _reload_env()      # ← push into os.environ immediately, no restart needed
     return jsonify({"ok": True})
 
 
-# ── Profile (for dashboard header) ───────────────────────────────────────────
+# ── Profile ───────────────────────────────────────────────────────────────────
 
 @app.route("/api/profile")
 def api_profile():
+    _reload_env()
     return jsonify({
         "name":      os.getenv("YOUR_NAME",      "Stephen Muema (Steve Kaks)"),
         "email":     os.getenv("YOUR_EMAIL",     "musyokas753@gmail.com"),
@@ -241,21 +322,35 @@ def api_profile():
     })
 
 
+# ── Capabilities check (what's unlocked) ─────────────────────────────────────
+
+@app.route("/api/capabilities")
+def api_capabilities():
+    _reload_env()
+    return jsonify({
+        "ai_replies":    bool(os.getenv("GROQ_API_KEY","").strip()),
+        "reddit_scan":   bool(os.getenv("REDDIT_CLIENT_ID","").strip()),
+        "twitter_scan":  bool(os.getenv("TWITTER_BEARER_TOKEN","").strip()),
+        "demo_always":   True,
+    })
+
+
 # ════════════════════════════════════════════════════════════════════════════
 #  STARTUP
 # ════════════════════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
     if not load_signals():
-        print("[Startup] Seeding demo signals …")
+        print("[Startup] Seeding demo signals…")
         generate_demo_signals(10)
 
     _start_auto_scan(interval_min=15)
 
-    print("\n" + "═" * 54)
-    print("  🎯  CLIENT HUNTER  –  Steve Kaks Edition")
-    print("  Running on  http://0.0.0.0:5000")
+    print("\n" + "═"*54)
+    print("  🎯  CLIENT HUNTER v2  –  Steve Kaks Edition")
+    print("  http://localhost:5000")
     print("  100% FREE  •  No paid APIs required")
-    print("═" * 54 + "\n")
+    print("  Paste API keys in Settings → works instantly")
+    print("═"*54 + "\n")
 
     app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
