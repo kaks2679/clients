@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Client Hunter v2 — Steve Kaks</title>
+<title>Client Hunter v3 — Steve Kaks</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -39,12 +39,9 @@ select,input,textarea{font-family:inherit}
 .logo sub{font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;vertical-align:super;margin-left:2px}
 .topbar-center{flex:1;display:flex;justify-content:center}
 .caps-bar{display:flex;gap:6px}
-.cap-pill{
-  display:flex;align-items:center;gap:5px;border-radius:20px;
-  padding:4px 10px;font-size:11px;font-weight:600;border:1px solid;
-}
-.cap-pill.on{ background:rgba(63,185,80,.1); color:var(--green);  border-color:rgba(63,185,80,.3)}
-.cap-pill.off{background:rgba(139,148,158,.07);color:var(--muted); border-color:var(--border)}
+.cap-pill{display:flex;align-items:center;gap:5px;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;border:1px solid}
+.cap-pill.on{background:rgba(63,185,80,.1);color:var(--green);border-color:rgba(63,185,80,.3)}
+.cap-pill.off{background:rgba(139,148,158,.07);color:var(--muted);border-color:var(--border)}
 .cap-pill .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
 .topbar-profile{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#0d1117;flex-shrink:0}
@@ -52,38 +49,23 @@ select,input,textarea{font-family:inherit}
 .ploc{font-size:11px;color:var(--muted)}
 
 /* ── SIDEBAR ── */
-.sidebar{
-  background:var(--surface);border-right:1px solid var(--border);
-  padding:16px 10px;display:flex;flex-direction:column;gap:2px;
-  overflow-y:auto;position:sticky;top:58px;height:calc(100vh - 58px);
-}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:16px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;position:sticky;top:58px;height:calc(100vh - 58px)}
 .sec-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted2);padding:12px 8px 4px}
-.nav-btn{
-  display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:8px;
-  border:none;background:transparent;color:var(--muted);width:100%;
-  text-align:left;font-size:13px;font-weight:500;transition:all .15s;
-}
+.nav-btn{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:8px;border:none;background:transparent;color:var(--muted);width:100%;text-align:left;font-size:13px;font-weight:500;transition:all .15s}
 .nav-btn:hover{background:var(--surface2);color:var(--text)}
 .nav-btn.active{background:rgba(88,166,255,.1);color:var(--accent);font-weight:600}
 .nav-btn i{width:16px;text-align:center;font-size:13px;flex-shrink:0}
 .nav-badge{margin-left:auto;background:var(--red);color:#fff;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:700;min-width:18px;text-align:center}
 .sidebar-divider{height:1px;background:var(--border);margin:8px 0}
-.scan-status{
-  margin-top:auto;background:var(--surface2);border:1px solid var(--border);
-  border-radius:8px;padding:10px;font-size:11px;
-}
+.scan-status{margin-top:auto;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:11px}
 .scan-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:4px}
 .scan-dot.scanning{background:var(--orange);animation:blink 1s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
 /* ── MAIN ── */
 .main{overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:20px}
-
-/* ── PAGE SECTIONS ── */
 .page-section{display:none;flex-direction:column;gap:20px}
 .page-section.active{display:flex}
-
-/* ── PAGE HEADER ── */
 .ph{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .ph-title{font-size:20px;font-weight:800;display:flex;align-items:center;gap:10px}
 .ph-sub{font-size:12px;font-weight:400;color:var(--muted);margin-top:2px}
@@ -97,6 +79,7 @@ select,input,textarea{font-family:inherit}
 .btn-purple{background:rgba(188,140,255,.15);color:var(--purple);border:1px solid rgba(188,140,255,.3)}.btn-purple:hover{background:rgba(188,140,255,.25)}
 .btn-orange{background:rgba(210,153,34,.15);color:var(--orange);border:1px solid rgba(210,153,34,.3)}.btn-orange:hover{background:rgba(210,153,34,.25)}
 .btn-red{background:rgba(248,81,73,.12);color:var(--red);border:1px solid rgba(248,81,73,.25)}.btn-red:hover{background:rgba(248,81,73,.2)}
+.btn-whatsapp{background:#25d366;color:#fff}.btn-whatsapp:hover{filter:brightness(1.1)}
 .btn-sm{padding:5px 10px;font-size:11px}
 .btn-xs{padding:3px 8px;font-size:10px}
 
@@ -122,7 +105,6 @@ select,input,textarea{font-family:inherit}
 .sort-select,.tag-select,.source-select{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 8px;color:var(--text);font-size:11px;outline:none;cursor:pointer}
 
 .signals-list{display:flex;flex-direction:column;gap:10px}
-
 .sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .18s}
 .sc:hover{border-color:rgba(88,166,255,.5);box-shadow:0 4px 20px rgba(0,0,0,.3)}
 .sc.expanded{border-color:var(--accent)}
@@ -135,30 +117,31 @@ select,input,textarea{font-family:inherit}
 .sc-title{font-size:13px;font-weight:700;line-height:1.4;margin-bottom:6px;color:var(--text)}
 .sc-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:5px}
 .tag{display:inline-flex;align-items:center;gap:4px;border-radius:20px;padding:2px 9px;font-size:10px;font-weight:700;white-space:nowrap}
-.tag-sub {background:rgba(88,166,255,.12);color:var(--accent);border:1px solid rgba(88,166,255,.25)}
-.tag-svc {background:rgba(188,140,255,.12);color:var(--purple);border:1px solid rgba(188,140,255,.25)}
-.tag-price{background:rgba(63,185,80,.12); color:var(--green); border:1px solid rgba(63,185,80,.25)}
-.tag-demo {background:rgba(139,148,158,.1);color:var(--muted); border:1px solid var(--border)}
+.tag-sub{background:rgba(88,166,255,.12);color:var(--accent);border:1px solid rgba(88,166,255,.25)}
+.tag-svc{background:rgba(188,140,255,.12);color:var(--purple);border:1px solid rgba(188,140,255,.25)}
+.tag-price{background:rgba(63,185,80,.12);color:var(--green);border:1px solid rgba(63,185,80,.25)}
+.tag-demo{background:rgba(139,148,158,.1);color:var(--muted);border:1px solid var(--border)}
 .tag-src-twitter{background:rgba(29,155,240,.12);color:#1d9bf0;border:1px solid rgba(29,155,240,.25)}
-.tag-src-reddit {background:rgba(255,69,0,.12); color:#ff4500;border:1px solid rgba(255,69,0,.25)}
-.tag-ds  {background:rgba(88,166,255,.1); color:var(--accent)}
-.tag-wr  {background:rgba(210,153,34,.1); color:var(--orange)}
-.tag-dbg {background:rgba(248,81,73,.1);  color:var(--red)}
-.tag-gen {background:rgba(139,148,158,.1);color:var(--muted)}
-.tag-new      {background:rgba(88,166,255,.12);color:var(--accent)}
-.tag-drafted  {background:rgba(210,153,34,.12);color:var(--orange)}
-.tag-sent     {background:rgba(188,140,255,.12);color:var(--purple)}
-.tag-converted{background:rgba(63,185,80,.12); color:var(--green)}
-.tag-ignored  {background:rgba(139,148,158,.1);color:var(--muted)}
+.tag-src-reddit{background:rgba(255,69,0,.12);color:#ff4500;border:1px solid rgba(255,69,0,.25)}
+.tag-src-manual{background:rgba(63,185,80,.1);color:var(--green);border:1px solid rgba(63,185,80,.2)}
+.tag-ds{background:rgba(88,166,255,.1);color:var(--accent)}
+.tag-wr{background:rgba(210,153,34,.1);color:var(--orange)}
+.tag-dbg{background:rgba(248,81,73,.1);color:var(--red)}
+.tag-gen{background:rgba(139,148,158,.1);color:var(--muted)}
+.tag-new{background:rgba(88,166,255,.12);color:var(--accent)}
+.tag-drafted{background:rgba(210,153,34,.12);color:var(--orange)}
+.tag-sent{background:rgba(188,140,255,.12);color:var(--purple)}
+.tag-converted{background:rgba(63,185,80,.12);color:var(--green)}
+.tag-ignored{background:rgba(139,148,158,.1);color:var(--muted)}
 .sc-info{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .sc-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
 .urgency-pill{border-radius:20px;padding:3px 9px;font-size:11px;font-weight:800}
-.up-hot {background:rgba(248,81,73,.15);color:var(--red)}
+.up-hot{background:rgba(248,81,73,.15);color:var(--red)}
 .up-warm{background:rgba(210,153,34,.15);color:var(--orange)}
-.up-cool{background:rgba(63,185,80,.15); color:var(--green)}
+.up-cool{background:rgba(63,185,80,.15);color:var(--green)}
 .replied-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
 .rb-yes{background:rgba(63,185,80,.15);color:var(--green)}
-.rb-no {background:rgba(248,81,73,.15); color:var(--red)}
+.rb-no{background:rgba(248,81,73,.15);color:var(--red)}
 
 /* expanded body */
 .sc-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border)}
@@ -194,6 +177,7 @@ select,input,textarea{font-family:inherit}
 /* ── LOADING ── */
 .loading{text-align:center;padding:40px;color:var(--muted)}
 .spinner{display:inline-block;width:22px;height:22px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:8px}
+.spinner-sm{width:14px;height:14px;border-width:2px;margin:0}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ── HEATMAP ── */
@@ -239,14 +223,14 @@ select,input,textarea{font-family:inherit}
 
 /* ── TOAST ── */
 #toasts{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none}
-.toast{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text);display:flex;align-items:center;gap:9px;box-shadow:var(--shadow);animation:toastIn .25s ease;max-width:300px;pointer-events:all}
+.toast{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text);display:flex;align-items:center;gap:9px;box-shadow:var(--shadow);animation:toastIn .25s ease;max-width:320px;pointer-events:all}
 .toast.success{border-color:var(--green)}.toast.error{border-color:var(--red)}.toast.info{border-color:var(--accent)}
 @keyframes toastIn{from{transform:translateX(110%);opacity:0}to{transform:none;opacity:1}}
 
 /* ── MODAL ── */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;align-items:center;justify-content:center;padding:16px}
 .modal-bg.open{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:12px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.7)}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:12px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.7)}
 .mhdr{padding:18px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .mhdr-title{font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px}
 .mclose{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:4px;border-radius:4px}
@@ -271,9 +255,34 @@ select,input,textarea{font-family:inherit}
 .step-done{color:var(--green);border-color:rgba(63,185,80,.3);background:rgba(63,185,80,.08)}
 .step-todo{color:var(--orange);border-color:rgba(210,153,34,.3);background:rgba(210,153,34,.08)}
 
-/* ── SURFACE CARD (reusable) ── */
+/* ── CARD ── */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
 .card-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:14px}
+
+/* ── URL PASTE BOX ── */
+.url-paste-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:10px}
+.url-paste-row{display:flex;gap:8px}
+.url-paste-row input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);font-size:12px;outline:none;transition:border-color .15s}
+.url-paste-row input:focus{border-color:var(--accent)}
+.url-paste-row input::placeholder{color:var(--muted)}
+
+/* ── TWITTER SEARCH GRID ── */
+.twitter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px}
+.twitter-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:7px}
+.twitter-card-q{font-size:12px;font-weight:600;color:var(--text);line-height:1.4}
+.twitter-card-btns{display:flex;gap:6px;flex-wrap:wrap}
+
+/* ── LANDING PAGE ── */
+.lp-hero{background:linear-gradient(135deg,#0d1117 0%,rgba(88,166,255,.06) 50%,rgba(188,140,255,.04) 100%);border:1px solid var(--border);border-radius:var(--radius);padding:28px;text-align:center}
+.lp-name{font-size:28px;font-weight:900;letter-spacing:-.5px;margin-bottom:6px}
+.lp-tagline{font-size:14px;color:var(--muted);margin-bottom:20px}
+.lp-services{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px}
+.lp-svc{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px}
+.lp-cta-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.lp-contact-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.lp-contact{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.lp-section{margin-top:18px;text-align:left}
+.lp-section-title{font-size:15px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 
 /* ── RESPONSIVE ── */
 @media(max-width:700px){
@@ -291,13 +300,12 @@ select,input,textarea{font-family:inherit}
 
 <!-- ══ TOPBAR ════════════════════════════════════════════════════════════ -->
 <header class="topbar">
-  <div class="logo"><i class="fa-solid fa-crosshairs crosshair"></i> Client Hunter<sub>v2</sub></div>
+  <div class="logo"><i class="fa-solid fa-crosshairs crosshair"></i> Client Hunter<sub>v3</sub></div>
   <div class="topbar-center">
     <div class="caps-bar" id="capsBar">
-      <div class="cap-pill off" id="capReddit"><span class="dot"></span>Reddit</div>
-      <div class="cap-pill off" id="capTwitter"><span class="dot"></span>Twitter/X</div>
-      <div class="cap-pill off" id="capAI"><span class="dot"></span>AI Replies</div>
-      <div class="cap-pill on"  id="capDemo"><span class="dot"></span>Demo Mode</div>
+      <div class="cap-pill off" id="capReddit"><span class="dot"></span>Reddit RSS</div>
+      <div class="cap-pill off" id="capGroq"><span class="dot"></span>AI Replies</div>
+      <div class="cap-pill on"  id="capDemo"><span class="dot"></span>Demo</div>
     </div>
   </div>
   <div class="topbar-profile">
@@ -313,8 +321,14 @@ select,input,textarea{font-family:inherit}
     <i class="fa-solid fa-signal"></i> Live Signals
     <span class="nav-badge" id="newBadge">0</span>
   </button>
+  <button class="nav-btn" onclick="showPage('hunt')" id="navHunt">
+    <i class="fa-solid fa-crosshairs"></i> Hunt Mode
+  </button>
   <button class="nav-btn" onclick="showPage('heatmap')" id="navHeatmap">
     <i class="fa-solid fa-fire"></i> Heat Map
+  </button>
+  <button class="nav-btn" onclick="showPage('landing')" id="navLanding">
+    <i class="fa-solid fa-globe"></i> Landing Page
   </button>
   <button class="nav-btn" onclick="showPage('services')" id="navServices">
     <i class="fa-solid fa-briefcase"></i> My Services
@@ -325,8 +339,7 @@ select,input,textarea{font-family:inherit}
   <div class="sidebar-divider"></div>
   <div class="sec-label">Actions</div>
   <button class="nav-btn" onclick="scanDemo()"><i class="fa-solid fa-flask"></i> Add Demo Signals</button>
-  <button class="nav-btn" onclick="scanReddit()"><i class="fa-brands fa-reddit"></i> Scan Reddit</button>
-  <button class="nav-btn" onclick="scanTwitter()"><i class="fa-brands fa-x-twitter"></i> Scan Twitter/X</button>
+  <button class="nav-btn" onclick="scanReddit()"><i class="fa-brands fa-reddit"></i> Scan Reddit RSS</button>
   <button class="nav-btn" onclick="draftAll()"><i class="fa-solid fa-robot"></i> AI Draft All</button>
   <div class="sidebar-divider"></div>
   <button class="nav-btn" onclick="openSettings()"><i class="fa-solid fa-gear"></i> Settings / API Keys</button>
@@ -346,8 +359,7 @@ select,input,textarea{font-family:inherit}
     <div><div class="ph-title"><i class="fa-solid fa-satellite-dish" style="color:var(--accent)"></i>Live Signals</div><div class="ph-sub">Students who need exactly what you offer — right now</div></div>
     <div class="ph-actions">
       <button class="btn btn-secondary btn-sm" onclick="scanDemo()"><i class="fa-solid fa-flask"></i>Demo</button>
-      <button class="btn btn-secondary btn-sm" onclick="scanReddit()"><i class="fa-brands fa-reddit"></i>Reddit</button>
-      <button class="btn btn-secondary btn-sm" onclick="scanTwitter()"><i class="fa-brands fa-x-twitter"></i>Twitter</button>
+      <button class="btn btn-secondary btn-sm" onclick="scanReddit()"><i class="fa-brands fa-reddit"></i>Scan Reddit</button>
       <button class="btn btn-primary btn-sm" onclick="draftAll()"><i class="fa-solid fa-robot"></i>AI Draft All</button>
     </div>
   </div>
@@ -356,16 +368,15 @@ select,input,textarea{font-family:inherit}
   <div class="setup-banner" id="setupBanner">
     <div class="sb-icon"><i class="fa-solid fa-circle-info"></i></div>
     <div class="sb-body">
-      <div class="sb-title">Running in Demo Mode — fully functional, zero cost</div>
-      <div class="sb-desc">Add free API keys below to unlock live Reddit/Twitter scanning and smarter AI replies. No credit card for anything.</div>
+      <div class="sb-title">✅ Reddit RSS is active — zero credentials, works right now</div>
+      <div class="sb-desc">Click "Scan Reddit" to pull real student posts from 12 subreddits using Reddit's free public RSS. Groq AI key already set for smart replies.</div>
       <div class="sb-steps">
-        <div class="setup-step step-done"><i class="fa-solid fa-check"></i>Demo ✓</div>
-        <div class="setup-step step-todo" id="stepReddit"><i class="fa-brands fa-reddit"></i>Reddit API (free)</div>
-        <div class="setup-step step-todo" id="stepTwitter"><i class="fa-brands fa-x-twitter"></i>Twitter Bearer (free)</div>
-        <div class="setup-step step-todo" id="stepGroq"><i class="fa-solid fa-robot"></i>Groq AI (free)</div>
+        <div class="setup-step step-done"><i class="fa-solid fa-check"></i>Reddit RSS ✓</div>
+        <div class="setup-step step-done" id="stepGroq"><i class="fa-solid fa-robot"></i>Groq AI ✓</div>
+        <div class="setup-step step-todo" id="stepReddit"><i class="fa-brands fa-reddit"></i>Reddit API (optional)</div>
       </div>
     </div>
-    <button class="btn btn-secondary btn-sm" onclick="openSettings()"><i class="fa-solid fa-gear"></i>Setup</button>
+    <button class="btn btn-primary btn-sm" onclick="scanReddit()"><i class="fa-brands fa-reddit"></i>Scan Now</button>
   </div>
 
   <!-- Stats grid -->
@@ -406,7 +417,9 @@ select,input,textarea{font-family:inherit}
     </select>
     <select class="source-select" id="sourceSelect" onchange="renderSignals()">
       <option value="">All sources</option>
-      <option value="reddit">Reddit</option>
+      <option value="reddit_rss">Reddit RSS</option>
+      <option value="reddit">Reddit API</option>
+      <option value="manual">Manual</option>
       <option value="twitter">Twitter/X</option>
     </select>
     <select class="sort-select" id="sortSelect" onchange="renderSignals()">
@@ -417,6 +430,109 @@ select,input,textarea{font-family:inherit}
 
   <div id="signalsList"><div class="loading"><div class="spinner"></div><div>Loading…</div></div></div>
 </div><!-- /signals -->
+
+
+<!-- ════ HUNT MODE PAGE ════ -->
+<div class="page-section" id="pageHunt">
+  <div class="ph">
+    <div><div class="ph-title"><i class="fa-solid fa-crosshairs" style="color:var(--red)"></i>Hunt Mode</div><div class="ph-sub">Active hunting tools — paste URLs, search Twitter, add manual signals</div></div>
+  </div>
+
+  <!-- ── REDDIT URL PASTE ── -->
+  <div class="card">
+    <div class="card-title"><i class="fa-brands fa-reddit" style="color:#ff4500"></i>Paste Reddit Post URL</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Found a student post on Reddit? Paste the URL here — we'll fetch the full text, score it, and generate reply drafts automatically. <strong style="color:var(--text)">No API key needed.</strong></p>
+    <div class="url-paste-row">
+      <input type="text" id="redditUrlInput" placeholder="https://www.reddit.com/r/learnpython/comments/…" />
+      <button class="btn btn-primary" onclick="pasteRedditUrl()" id="pasteBtn">
+        <i class="fa-solid fa-bolt"></i>Fetch Post
+      </button>
+    </div>
+    <div id="pasteResult" style="margin-top:10px;font-size:12px;color:var(--muted)"></div>
+  </div>
+
+  <!-- ── MANUAL SIGNAL ADD ── -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-pen-to-square" style="color:var(--purple)"></i>Add Signal Manually</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Saw a post on Discord, Telegram, WhatsApp group, or a screenshot? Paste the text here to create a signal and generate reply drafts.</p>
+    <div class="form-group">
+      <label class="form-label">Title / Subject line</label>
+      <input class="form-input" id="manualTitle" placeholder="e.g. Pandas KeyError, due in 2 hours, please help" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Body (paste the full message)</label>
+      <textarea class="form-input" id="manualBody" rows="4" placeholder="Paste the full student message here…" style="resize:vertical"></textarea>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="form-group">
+        <label class="form-label">Original URL (optional)</label>
+        <input class="form-input" id="manualUrl" placeholder="https://… or leave blank" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Source</label>
+        <select class="form-input" id="manualSource">
+          <option value="manual">Manual</option>
+          <option value="discord">Discord</option>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="telegram">Telegram</option>
+          <option value="facebook">Facebook</option>
+          <option value="twitter">Twitter/X</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-purple" onclick="addManualSignal()" id="addManualBtn">
+      <i class="fa-solid fa-plus"></i>Add Signal + Generate Replies
+    </button>
+    <div id="manualResult" style="margin-top:10px;font-size:12px;color:var(--muted)"></div>
+  </div>
+
+  <!-- ── TWITTER SEARCH LINKS ── -->
+  <div class="card">
+    <div class="card-title"><i class="fa-brands fa-x-twitter"></i>Twitter/X Search Links <span style="font-size:10px;font-weight:400;color:var(--muted);margin-left:6px">— free, no API needed</span></div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Click any query to open Twitter search in a new tab. When you find a student post, <strong style="color:var(--text)">copy the tweet text</strong>, then use "Add Signal Manually" above to create a reply draft.</p>
+    <div class="twitter-grid" id="twitterGrid">
+      <div style="color:var(--muted);font-size:12px">Loading…</div>
+    </div>
+  </div>
+
+  <!-- ── WHATSAPP OUTREACH ── -->
+  <div class="card">
+    <div class="card-title"><i class="fa-brands fa-whatsapp" style="color:#25d366"></i>WhatsApp Click-to-Chat</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Generate a direct WhatsApp link. Share it in your Reddit replies, Discord bio, or anywhere. When students click it, a pre-filled message opens in WhatsApp.</p>
+    <div class="url-paste-row">
+      <input type="text" id="waTopicInput" placeholder="e.g. pandas errors, essay editing, machine learning" value="data science and academic writing" />
+      <button class="btn btn-whatsapp" onclick="genWhatsApp()"><i class="fa-brands fa-whatsapp"></i>Generate Link</button>
+    </div>
+    <div id="waResult" style="margin-top:10px"></div>
+  </div>
+
+  <!-- ── 60-MINUTE ACTION PLAN ── -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-stopwatch" style="color:var(--orange)"></i>60-Minute Action Plan — Do This Tonight</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px">
+        <div style="width:26px;height:26px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;flex-shrink:0">1</div>
+        <div><div style="font-size:12px;font-weight:700;color:var(--text)">Click "Scan Reddit" now</div><div style="font-size:11px;color:var(--muted)">Wait 30 seconds. Reddit RSS fetches real posts from 12 subreddits. Filter by 🔥 hot.</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px">
+        <div style="width:26px;height:26px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;flex-shrink:0">2</div>
+        <div><div style="font-size:12px;font-weight:700;color:var(--text)">Click "AI Draft All" — generates 5-mode replies for every signal in seconds</div><div style="font-size:11px;color:var(--muted)">Groq AI is active — real AI replies, not templates.</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px">
+        <div style="width:26px;height:26px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;flex-shrink:0">3</div>
+        <div><div style="font-size:12px;font-weight:700;color:var(--text)">Pick the top 5 hot signals — copy the Urgent reply, open the post, paste</div><div style="font-size:11px;color:var(--muted)">Use Low-key mode for r/HomeworkHelp to avoid bans. Urgent/DM for others.</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px">
+        <div style="width:26px;height:26px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;flex-shrink:0">4</div>
+        <div><div style="font-size:12px;font-weight:700;color:var(--text)">Open 3 Twitter search tabs from Hunt Mode → paste any good tweets as manual signals</div><div style="font-size:11px;color:var(--muted)">Then DM the student directly on Twitter with the DM mode reply.</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px">
+        <div style="width:26px;height:26px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;flex-shrink:0">5</div>
+        <div><div style="font-size:12px;font-weight:700;color:var(--text)">Mark each signal "Sent" then track if they replied — builds your response rate</div><div style="font-size:11px;color:var(--muted)">Expected: 2–5 replies per session. 1 client every 2–3 sessions = $30–100/week starting.</div></div>
+      </div>
+    </div>
+  </div>
+</div><!-- /hunt -->
 
 
 <!-- ════ HEATMAP PAGE ════ -->
@@ -447,6 +563,81 @@ select,input,textarea{font-family:inherit}
 </div><!-- /heatmap -->
 
 
+<!-- ════ LANDING PAGE ════ -->
+<div class="page-section" id="pageLanding">
+  <div class="ph">
+    <div><div class="ph-title"><i class="fa-solid fa-globe" style="color:var(--accent)"></i>Your Landing Page</div><div class="ph-sub">Share this link with students — it shows your services, prices, and contact</div></div>
+    <div class="ph-actions">
+      <button class="btn btn-secondary btn-sm" onclick="copyLandingUrl()"><i class="fa-solid fa-copy"></i>Copy Link</button>
+      <a href="https://stephenmueama.com" target="_blank" class="btn btn-primary btn-sm"><i class="fa-solid fa-arrow-up-right-from-square"></i>Open Portfolio</a>
+    </div>
+  </div>
+
+  <!-- Live preview of the landing page content -->
+  <div class="lp-hero">
+    <div class="lp-name" id="lpName">Steve Kaks</div>
+    <div style="font-size:13px;color:var(--accent);font-weight:700;margin-bottom:8px">Data Scientist · Academic Writer · Kiambu, Kenya</div>
+    <div class="lp-tagline" id="lpTagline">I help students finish assignments — fast, affordable, guaranteed.</div>
+    <div class="lp-services">
+      <div class="lp-svc">🐍 Python Fix <strong style="color:var(--green)">$15</strong></div>
+      <div class="lp-svc">🧹 Data Cleaning <strong style="color:var(--green)">$35</strong></div>
+      <div class="lp-svc">📊 Visualizations <strong style="color:var(--green)">$30</strong></div>
+      <div class="lp-svc">📈 Statistics <strong style="color:var(--green)">$40</strong></div>
+      <div class="lp-svc">🤖 ML Project <strong style="color:var(--green)">$75</strong></div>
+      <div class="lp-svc">✍️ Essay/Thesis <strong style="color:var(--green)">$25</strong></div>
+    </div>
+    <div class="lp-cta-btns">
+      <a id="lpWhatsapp" href="https://wa.me/254740624253?text=Hi%20Steve%2C%20I%20need%20help%20with%20my%20assignment" target="_blank" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i>WhatsApp Me Now</a>
+      <a id="lpEmail" href="mailto:musyokas753@gmail.com?subject=Assignment Help&body=Hi Steve," class="btn btn-primary"><i class="fa-solid fa-envelope"></i>Email Me</a>
+      <a href="https://stephenmueama.com" target="_blank" class="btn btn-secondary"><i class="fa-solid fa-globe"></i>Full Portfolio</a>
+    </div>
+    <div class="lp-contact-row">
+      <div class="lp-contact"><i class="fa-brands fa-whatsapp" style="color:#25d366"></i> <span id="lpPhone">+254-740-624-253</span></div>
+      <div class="lp-contact"><i class="fa-solid fa-envelope" style="color:var(--accent)"></i> <span id="lpEmail2">musyokas753@gmail.com</span></div>
+      <div class="lp-contact"><i class="fa-brands fa-linkedin" style="color:#0a66c2"></i><a href="https://www.linkedin.com/in/stephen-muema-617339359" target="_blank" style="color:var(--muted)">LinkedIn</a></div>
+      <div class="lp-contact"><i class="fa-brands fa-github"></i><a href="https://github.com/Kaks753" target="_blank" style="color:var(--muted)">GitHub</a></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-share-nodes" style="color:var(--accent)"></i>Share Your Services — Copy Paste Ready</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Reddit Bio / Comment Signature</div>
+        <div class="url-paste-row" style="align-items:flex-start">
+          <textarea id="shareReddit" class="form-input" rows="3" readonly style="font-size:11px;line-height:1.6">📊 Steve Kaks | Data Scientist & Academic Writer | Kenya
+Python errors · CSV cleaning · Stats · Essays · ML projects
+$15–75 per task · Same-day turnaround
+DM me or visit stephenmueama.com</textarea>
+          <button class="btn btn-secondary btn-sm" onclick="copyText('shareReddit')" style="flex-shrink:0">Copy</button>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Discord Bio / Status</div>
+        <div class="url-paste-row" style="align-items:flex-start">
+          <textarea id="shareDiscord" class="form-input" rows="2" readonly style="font-size:11px;line-height:1.6">🎯 Data Scientist helping students | Python • Pandas • ML • Essays | DM for fast help → stephenmueama.com</textarea>
+          <button class="btn btn-secondary btn-sm" onclick="copyText('shareDiscord')" style="flex-shrink:0">Copy</button>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Twitter/X Bio</div>
+        <div class="url-paste-row" style="align-items:flex-start">
+          <textarea id="shareTwitter" class="form-input" rows="2" readonly style="font-size:11px;line-height:1.6">📊 Data Scientist & Academic Writer | Helping students 🎓 | Python • ML • Essays | $15 fixes → stephenmueama.com</textarea>
+          <button class="btn btn-secondary btn-sm" onclick="copyText('shareTwitter')" style="flex-shrink:0">Copy</button>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">WhatsApp Status</div>
+        <div class="url-paste-row" style="align-items:flex-start">
+          <textarea id="shareWA" class="form-input" rows="2" readonly style="font-size:11px;line-height:1.6">🎓 Helping students with Python, data science & essays. Fast, affordable, guaranteed. DM me → stephenmueama.com</textarea>
+          <button class="btn btn-secondary btn-sm" onclick="copyText('shareWA')" style="flex-shrink:0">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /landing -->
+
+
 <!-- ════ SERVICES PAGE ════ -->
 <div class="page-section" id="pageServices">
   <div class="ph">
@@ -465,12 +656,12 @@ select,input,textarea{font-family:inherit}
 <div class="page-section" id="pageHowto">
   <div class="ph"><div><div class="ph-title"><i class="fa-solid fa-map" style="color:var(--accent)"></i>How It Works</div></div></div>
   <div class="how-grid">
-    <div class="how-card"><div class="step-num">1</div><h4>🎯 Scan for Signals</h4><p>The tool watches Reddit + Twitter/X for students posting about deadlines, errors, and assignments. Every scan covers 12 subreddits and 7 Twitter queries.</p></div>
-    <div class="how-card"><div class="step-num">2</div><h4>🔥 Urgency Score</h4><p>Every signal is scored automatically. "Due in 3 hours" scores higher than "struggling with course". You see the hottest leads first.</p></div>
-    <div class="how-card"><div class="step-num">3</div><h4>🤖 Draft Reply</h4><p>Choose a mode: <strong>Urgent</strong> (short, deadline), <strong>Long-term</strong> (tutoring package), <strong>Group</strong> (split pricing), <strong>Low-key</strong> (no promo, anti-ban), or <strong>DM</strong> (private message).</p></div>
-    <div class="how-card"><div class="step-num">4</div><h4>📋 Copy + Open</h4><p>Click "Copy Reply" then "Open Post" — your browser opens Reddit directly. Paste. You're the first helpful expert they see. Conversion follows.</p></div>
-    <div class="how-card"><div class="step-num">5</div><h4>✅ Track Replies</h4><p>After posting, mark "Did they reply?" — Yes or No. Over time you see which reply modes convert best and double down on those.</p></div>
-    <div class="how-card"><div class="step-num">6</div><h4>💰 Mark Converted</h4><p>When a student pays, mark them Converted. Your conversion rate is tracked on the dashboard. This is your personal business metric.</p></div>
+    <div class="how-card"><div class="step-num">1</div><h4>📡 Scan Reddit RSS (Free)</h4><p>Click "Scan Reddit" — it fetches new posts from 12 subreddits using Reddit's free public RSS. Zero credentials needed. Works on any new account.</p></div>
+    <div class="how-card"><div class="step-num">2</div><h4>🔥 Urgency Score</h4><p>Every signal is scored automatically. "Due in 3 hours" = 🔥 hot. "Struggling with course" = warm. You see the hottest leads first.</p></div>
+    <div class="how-card"><div class="step-num">3</div><h4>🤖 AI Draft Reply</h4><p>Groq AI (free, unlimited) generates personalised replies in 5 modes: <strong>Urgent</strong>, <strong>Long-term</strong>, <strong>Group</strong>, <strong>Low-key</strong>, <strong>DM</strong>.</p></div>
+    <div class="how-card"><div class="step-num">4</div><h4>📋 Copy + Open Post</h4><p>Click "Copy Reply" then "Open Post" — Reddit opens in a new tab. Paste. You're the first expert they see.</p></div>
+    <div class="how-card"><div class="step-num">5</div><h4>🔍 Hunt Mode</h4><p>Paste any Reddit URL to scrape it instantly. Add signals from Discord/WhatsApp manually. Open Twitter search tabs to find leads.</p></div>
+    <div class="how-card"><div class="step-num">6</div><h4>💰 Track & Optimise</h4><p>Mark "Did they reply?" and "Converted" — your response rate and conversion rate build over time. Double down on what works.</p></div>
   </div>
 
   <div class="card">
@@ -479,30 +670,20 @@ select,input,textarea{font-family:inherit}
   </div>
 
   <div class="card">
-    <div class="card-title"><i class="fa-solid fa-key" style="color:var(--yellow)"></i>Free API Keys — Get Them in 5 Minutes</div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <div style="display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px">
-        <i class="fa-brands fa-reddit" style="font-size:20px;color:#ff4500"></i>
-        <div style="flex:1"><div style="font-weight:700;font-size:12px">Reddit API <span class="free-badge">FREE FOREVER</span></div><div style="font-size:11px;color:var(--muted);margin-top:2px">reddit.com/prefs/apps → Create App → "script" type. Takes 2 minutes.</div></div>
-        <a href="https://www.reddit.com/prefs/apps" target="_blank" class="btn btn-secondary btn-sm">Get Key</a>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px">
-        <i class="fa-brands fa-x-twitter" style="font-size:20px;color:var(--text)"></i>
-        <div style="flex:1"><div style="font-weight:700;font-size:12px">Twitter/X Bearer Token <span class="free-badge">FREE TIER</span></div><div style="font-size:11px;color:var(--muted);margin-top:2px">developer.twitter.com → Create Project → Basic = 500k reads/month free.</div></div>
-        <a href="https://developer.twitter.com/en/portal/dashboard" target="_blank" class="btn btn-secondary btn-sm">Get Key</a>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px">
-        <i class="fa-solid fa-robot" style="font-size:20px;color:var(--accent)"></i>
-        <div style="flex:1"><div style="font-weight:700;font-size:12px">Groq AI <span class="free-badge">FREE — NO CREDIT CARD</span></div><div style="font-size:11px;color:var(--muted);margin-top:2px">console.groq.com → sign up → free tier gives thousands of AI requests/day.</div></div>
-        <a href="https://console.groq.com" target="_blank" class="btn btn-secondary btn-sm">Get Key</a>
-      </div>
-    </div>
+    <div class="card-title"><i class="fa-solid fa-shield-halved" style="color:var(--green)"></i>Low-Key Mode — Reddit Anti-Ban</div>
+    <p style="font-size:12px;color:var(--muted);line-height:1.7">Some subreddits (especially r/HomeworkHelp) flag obvious self-promotion. <strong style="color:var(--text)">Low-key mode</strong> writes replies that sound like a helpful classmate — no portfolio link, no "hire me". Just value + a soft DM invite.<br><br>
+    <strong style="color:var(--text)">Use Low-key for r/HomeworkHelp</strong>. Use Urgent/DM for r/learnpython, r/datascience, r/college.</p>
   </div>
 
   <div class="card">
-    <div class="card-title"><i class="fa-solid fa-shield-halved" style="color:var(--green)"></i>Low-Key Mode — Reddit Anti-Ban</div>
-    <p style="font-size:12px;color:var(--muted);line-height:1.7">Some subreddits (especially r/HomeworkHelp) flag obvious self-promotion. <strong style="color:var(--text)">Low-key mode</strong> writes replies that sound like a helpful classmate — no portfolio link, no "hire me". Just value + a soft DM invite.<br><br>
-    Rule of thumb: <strong style="color:var(--text)">use Low-key for r/HomeworkHelp</strong>, use Urgent/DM for subreddits that allow promotion (r/learnpython, r/datascience, r/college).</p>
+    <div class="card-title"><i class="fa-solid fa-key" style="color:var(--yellow)"></i>Optional API Upgrades</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px">
+        <i class="fa-brands fa-reddit" style="font-size:20px;color:#ff4500"></i>
+        <div style="flex:1"><div style="font-weight:700;font-size:12px">Reddit API <span class="free-badge">FREE FOREVER</span></div><div style="font-size:11px;color:var(--muted);margin-top:2px">reddit.com/prefs/apps → Create App → "script". Gives full comment text. Need ~7 days account age.</div></div>
+        <a href="https://www.reddit.com/prefs/apps" target="_blank" class="btn btn-secondary btn-sm">Get Key</a>
+      </div>
+    </div>
   </div>
 </div><!-- /howto -->
 
@@ -517,7 +698,7 @@ select,input,textarea{font-family:inherit}
       <button class="mclose" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="mbody">
-      <p style="font-size:11px;color:var(--muted);margin-bottom:16px">Your info is pre-filled from your portfolio. Paste any API key → it works <strong style="color:var(--text)">instantly</strong> — no restart.</p>
+      <p style="font-size:11px;color:var(--muted);margin-bottom:16px">Pre-filled from your portfolio. Paste any API key → works <strong style="color:var(--text)">instantly</strong>.</p>
       <div class="form-group">
         <label class="form-label">Your Name</label>
         <input class="form-input" id="sName"/>
@@ -538,12 +719,12 @@ select,input,textarea{font-family:inherit}
       </div>
       <hr style="border-color:var(--border);margin:14px 0"/>
       <div style="font-size:12px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:7px">
-        <i class="fa-solid fa-key" style="color:var(--yellow)"></i>Free API Keys — paste &amp; it works immediately
+        <i class="fa-solid fa-key" style="color:var(--yellow)"></i>Free API Keys
       </div>
       <div class="form-group">
         <label class="form-label">Groq API Key <span class="free-badge">FREE · console.groq.com</span></label>
         <input class="form-input" id="sGroq" type="password" placeholder="gsk_…" autocomplete="off"/>
-        <div class="form-hint">Powers all AI reply drafts. No credit card, no limits for this use case.</div>
+        <div class="form-hint">Powers AI reply drafts. Free, no credit card needed.</div>
       </div>
       <div class="form-group">
         <label class="form-label">Reddit Client ID <span class="free-badge">FREE · reddit.com/prefs/apps</span></label>
@@ -552,11 +733,6 @@ select,input,textarea{font-family:inherit}
       <div class="form-group">
         <label class="form-label">Reddit Client Secret <span class="free-badge">FREE</span></label>
         <input class="form-input" id="sRedditSec" type="password" placeholder="Secret…" autocomplete="off"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Twitter/X Bearer Token <span class="free-badge">FREE TIER</span></label>
-        <input class="form-input" id="sTwitter" type="password" placeholder="AAAA…" autocomplete="off"/>
-        <div class="form-hint">developer.twitter.com → free basic access = 500k reads/month.</div>
       </div>
     </div>
     <div class="mftr">
@@ -586,7 +762,6 @@ const SERVICES = [
   {icon:'✍️',name:'Essay / Thesis',    line:'Restructure + sharpen + fix flow',   price:'$25–50', turn:'Same day', hook:'Your ideas, clearer'},
 ];
 const SUBREDDITS = ['r/HomeworkHelp','r/learnpython','r/statistics','r/datascience','r/college','r/AskStatistics','r/learnmachinelearning','r/Python','r/dataanalysis','r/AskAcademia','r/GradSchool','r/mlquestions'];
-const MODE_INFO  = {urgent:'Short, punchy, same-day offer',longterm:'Semester-long tutoring package',group:'Group project split pricing',lowkey:'No promo link — anti-ban for strict subs',dm:'Ultra-short private message'};
 
 // ════════════════════════════════════════════════════════════════════════════
 //  INIT
@@ -599,6 +774,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   renderSubreddits();
   checkCaps();
   renderHeatmap();
+  loadTwitterSearchLinks();
   setInterval(loadStats, 20000);
   setInterval(pollScan,  4000);
 });
@@ -610,10 +786,11 @@ function showPage(p){
   currentPage=p;
   document.querySelectorAll('.page-section').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(el=>el.classList.remove('active'));
-  const pg=document.getElementById('page'+p.charAt(0).toUpperCase()+p.slice(1));
+  const pageId='page'+p.charAt(0).toUpperCase()+p.slice(1);
+  const pg=document.getElementById(pageId);
   if(pg) pg.classList.add('active');
-  const nb={'signals':'navSignals','heatmap':'navHeatmap','services':'navServices','howto':'navHowto'};
-  if(nb[p]) document.getElementById(nb[p]).classList.add('active');
+  const nb={signals:'navSignals',hunt:'navHunt',heatmap:'navHeatmap',landing:'navLanding',services:'navServices',howto:'navHowto'};
+  if(nb[p]) document.getElementById(nb[p])?.classList.add('active');
   if(p==='heatmap') renderHeatmap();
 }
 
@@ -625,7 +802,18 @@ async function loadProfile(){
     const p=await(await fetch('/api/profile')).json();
     document.getElementById('topName').textContent=p.name||'Steve Kaks';
     const parts=(p.name||'').split(' ');
-    document.getElementById('avatarEl').textContent=(parts[0]?.[0]||'')+(parts[1]?.[0]||'');
+    document.getElementById('avatarEl').textContent=(parts[0]?.[0]||'S')+(parts[1]?.[0]||'K');
+    // Update landing page
+    document.getElementById('lpName').textContent=(p.name||'Steve Kaks').split('(')[0].trim();
+    if(p.phone){
+      const ph=p.phone.replace(/[^0-9]/g,'');
+      document.getElementById('lpWhatsapp').href=`https://wa.me/${ph}?text=Hi%20Steve%2C%20I%20need%20help%20with%20my%20assignment`;
+      document.getElementById('lpPhone').textContent=p.phone;
+    }
+    if(p.email){
+      document.getElementById('lpEmail').href=`mailto:${p.email}?subject=Assignment Help&body=Hi Steve,`;
+      document.getElementById('lpEmail2').textContent=p.email;
+    }
   }catch(e){}
 }
 
@@ -635,23 +823,21 @@ async function loadProfile(){
 async function checkCaps(){
   try{
     const c=await(await fetch('/api/capabilities')).json();
-    setPill('capReddit',  c.reddit_scan);
-    setPill('capTwitter', c.twitter_scan);
-    setPill('capAI',      c.ai_replies);
+    // Reddit RSS always works (no creds needed)
+    setPill('capReddit', true);  // RSS is always available
+    setPill('capGroq',   c.ai_replies);
+    if(c.ai_replies) markStep('stepGroq');
     if(c.reddit_scan) markStep('stepReddit');
-    if(c.twitter_scan) markStep('stepTwitter');
-    if(c.ai_replies)  markStep('stepGroq');
-    if(c.reddit_scan && c.twitter_scan && c.ai_replies)
-      document.getElementById('setupBanner').style.display='none';
   }catch(e){}
 }
 function setPill(id,on){
   const el=document.getElementById(id);
+  if(!el) return;
   el.className='cap-pill '+(on?'on':'off');
 }
 function markStep(id){
   const el=document.getElementById(id);
-  if(el){ el.className='setup-step step-done'; el.innerHTML='<i class="fa-solid fa-check"></i>'+el.textContent.trim()+' ✓'; }
+  if(el){el.className='setup-step step-done';el.innerHTML='<i class="fa-solid fa-check"></i>'+el.textContent.trim();}
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -671,7 +857,7 @@ function setText(id,v){const el=document.getElementById(id);if(el)el.textContent
 function renderBreakdown(bd){
   const el=document.getElementById('svcBreakdown');
   const entries=Object.entries(bd).sort((a,b)=>b[1]-a[1]);
-  if(!entries.length){el.innerHTML='<div style="font-size:11px;color:var(--muted)">No data yet</div>';return;}
+  if(!entries.length){el.innerHTML='<div style="font-size:11px;color:var(--muted)">No data yet — click Scan Reddit</div>';return;}
   const max=entries[0][1];
   const colors=['','green','orange','purple','',''];
   el.innerHTML=entries.map(([k,v],i)=>`
@@ -690,7 +876,7 @@ async function loadSignals(){
     ALL_SIGNALS=await(await fetch('/api/signals?limit=100')).json();
     renderSignals();loadStats();
   }catch(e){
-    document.getElementById('signalsList').innerHTML=`<div class="empty"><i class="fa-solid fa-triangle-exclamation"></i><h3>Could not load signals</h3><p>Server might be starting up — try refreshing.</p></div>`;
+    document.getElementById('signalsList').innerHTML=`<div class="empty"><i class="fa-solid fa-triangle-exclamation"></i><h3>Could not load signals</h3><p>Server may be starting up.</p></div>`;
   }
 }
 
@@ -708,15 +894,19 @@ function renderSignals(){
   const src   =document.getElementById('sourceSelect')?.value||'';
   let sigs=[...ALL_SIGNALS];
   if(activeFilter!=='all') sigs=sigs.filter(s=>s.status===activeFilter);
-  if(tag)    sigs=sigs.filter(s=>(s.subject_tag||'')===tag);
-  if(src)    sigs=sigs.filter(s=>(s.source||'')=== src);
+  if(tag) sigs=sigs.filter(s=>(s.subject_tag||'')===tag);
+  if(src) sigs=sigs.filter(s=>(s.source||'').startsWith(src.replace('_rss','')));
   if(search) sigs=sigs.filter(s=>
     (s.title+' '+s.body+' '+s.subreddit+' '+(s.detected_service||'')).toLowerCase().includes(search));
   if(sort==='urgency') sigs.sort((a,b)=>b.urgency_score-a.urgency_score);
   else sigs.sort((a,b)=>(b.detected_at||'').localeCompare(a.detected_at||''));
   const el=document.getElementById('signalsList');
   if(!sigs.length){
-    el.innerHTML=`<div class="empty"><i class="fa-solid fa-satellite-dish"></i><h3>No signals found</h3><p>Click "Demo" to add signals, or connect Reddit/Twitter to scan live.</p><button class="btn btn-primary btn-sm" onclick="scanDemo()"><i class="fa-solid fa-flask"></i>Add Demo Signals</button></div>`;
+    el.innerHTML=`<div class="empty"><i class="fa-solid fa-satellite-dish"></i><h3>No signals yet</h3><p>Click "Scan Reddit" to pull real student posts (free, no API key), or click "Demo" for sample data.</p>
+    <div style="display:flex;gap:8px;justify-content:center">
+      <button class="btn btn-primary btn-sm" onclick="scanReddit()"><i class="fa-brands fa-reddit"></i>Scan Reddit Now</button>
+      <button class="btn btn-secondary btn-sm" onclick="scanDemo()"><i class="fa-solid fa-flask"></i>Load Demo</button>
+    </div></div>`;
     return;
   }
   el.innerHTML=sigs.map(renderCard).join('');
@@ -730,11 +920,13 @@ function timeAgo(iso){
   if(d<86400)return Math.floor(d/3600)+'h ago';return Math.floor(d/86400)+'d ago';
 }
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
 function tagColor(tag){const m={'Data Science':'tag-ds','Writing':'tag-wr','Debugging':'tag-dbg','General':'tag-gen'};return m[tag]||'tag-gen';}
 function srcTag(src){
-  if(src==='twitter')return`<span class="tag tag-src-twitter"><i class="fa-brands fa-x-twitter"></i>Twitter/X</span>`;
-  if(src==='reddit') return`<span class="tag tag-src-reddit"><i class="fa-brands fa-reddit"></i>Reddit</span>`;
+  if(!src) return '';
+  if(src.includes('twitter'))return`<span class="tag tag-src-twitter"><i class="fa-brands fa-x-twitter"></i>Twitter</span>`;
+  if(src.includes('reddit')) return`<span class="tag tag-src-reddit"><i class="fa-brands fa-reddit"></i>Reddit</span>`;
+  if(src==='manual'||src==='discord'||src==='whatsapp'||src==='telegram'||src==='facebook')
+    return`<span class="tag tag-src-manual"><i class="fa-solid fa-pen"></i>${src}</span>`;
   return'';
 }
 function repliedBadge(r){
@@ -760,7 +952,7 @@ function renderCard(s){
         <div class="sc-title">${esc(s.title)}</div>
         <div class="sc-tags">
           ${srcTag(s.source)}
-          <span class="tag tag-sub">r/${esc(s.subreddit)}</span>
+          <span class="tag tag-sub">${s.source==='twitter'?'Twitter':('r/'+esc(s.subreddit))}</span>
           <span class="tag tag-svc">${esc(s.detected_service)}</span>
           <span class="tag tag-price">${esc(s.suggested_price)}</span>
           <span class="tag ${tagColor(s.subject_tag)}">${esc(s.subject_tag||'General')}</span>
@@ -769,8 +961,7 @@ function renderCard(s){
         </div>
         <div class="sc-info">
           <span>${timeAgo(s.detected_at)}</span>
-          <span>u/${esc(s.author)}</span>
-          <span>score: ${s.reddit_score}</span>
+          <span>${s.source&&s.source.includes('twitter')?s.author:'u/'+esc(s.author)}</span>
           ${repliedBadge(s.replied_to)}
         </div>
       </div>
@@ -788,7 +979,7 @@ function renderCard(s){
           <i class="fa-solid fa-robot"></i>Draft Reply
         </button>
         <button class="btn btn-purple btn-sm" onclick="draftAllModes('${s.id}',event)">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>All Modes
+          <i class="fa-solid fa-wand-magic-sparkles"></i>All 5 Modes
         </button>
       </div>
       <div class="status-row">
@@ -812,18 +1003,17 @@ function buildReplyZone(id, urgent, dm, variants){
   const modes=['urgent','longterm','group','lowkey','dm'];
   const tabs=modes.map(m=>`<button class="mode-tab${m==='urgent'?' active':''}" onclick="switchMode('${id}','${m}',event)">${m}</button>`).join('');
   const allVariants={urgent,dm,...variants};
-  const textareaId=`rt-${id}`;
   return`
     <div class="reply-zone-header">
       <div class="rz-label"><i class="fa-solid fa-robot"></i>AI Reply Draft</div>
       <div class="mode-tabs">${tabs}</div>
     </div>
     <div class="reply-zone-body" id="rzb-${id}">
-      <textarea class="reply-textarea" id="${textareaId}">${esc(allVariants.urgent||'')}</textarea>
+      <textarea class="reply-textarea" id="rt-${id}">${esc(allVariants.urgent||'')}</textarea>
       <div class="reply-actions-row">
         <button class="btn btn-green btn-sm" id="copyBtn-${id}" onclick="copyReply('${id}',event)"><i class="fa-solid fa-copy"></i>Copy Reply</button>
         <button class="btn btn-purple btn-sm" id="copyDmBtn-${id}" onclick="copyDm('${id}',event)"><i class="fa-solid fa-envelope"></i>Copy as DM</button>
-        <a href="#" id="openBtn-${id}" target="_blank" class="btn btn-secondary btn-sm" onclick="openPost('${id}',event)"><i class="fa-brands fa-reddit"></i>Open Post</a>
+        <a href="${esc(variants.url||'#')}" id="openBtn-${id}" target="_blank" class="btn btn-secondary btn-sm" onclick="openPost('${id}',event)"><i class="fa-brands fa-reddit"></i>Open Post</a>
         <button class="btn btn-secondary btn-sm" onclick="draftSignal('${id}','urgent',event)"><i class="fa-solid fa-rotate"></i>Regenerate</button>
       </div>
     </div>
@@ -832,19 +1022,16 @@ function buildReplyZone(id, urgent, dm, variants){
 
 function switchMode(id, mode, event){
   event.stopPropagation();
-  const rzbEl=document.getElementById(`rzb-${id}`);
-  if(!rzbEl) return;
-  const key=`window.__variants_${id.replace(/-/g,'_')}`;
-  const variants=eval(key.replace('window.',''));
+  const key=`__variants_${id.replace(/-/g,'_')}`;
+  const variants=window[key];
   const ta=document.getElementById(`rt-${id}`);
   if(variants&&variants[mode]){
     if(ta) ta.value=variants[mode];
   } else {
-    // need to generate this mode
     draftSignal(id, mode, event);
     return;
   }
-  rzbEl.querySelectorAll('.mode-tab').forEach(t=>{
+  document.getElementById(`rzb-${id}`)?.querySelectorAll('.mode-tab').forEach(t=>{
     t.classList.toggle('active', t.textContent===mode);
   });
 }
@@ -862,10 +1049,7 @@ async function draftSignal(id, mode='urgent', event){
   const sc=document.getElementById('sc-'+id);
   sc?.classList.add('expanded');
   const rz=document.getElementById('rz-'+id);
-  if(rz){
-    rz.style.display='block';
-    rz.innerHTML=`<div class="rz-label"><i class="fa-solid fa-robot"></i>Generating ${mode} reply…</div><div class="spinner"></div>`;
-  }
+  if(rz){rz.style.display='block';rz.innerHTML=`<div class="rz-label"><i class="fa-solid fa-robot"></i>Generating ${mode} reply… <div class="spinner spinner-sm" style="display:inline-block"></div></div>`;}
   try{
     const r=await fetch(`/api/signals/${id}/draft`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode})});
     const d=await r.json();
@@ -878,7 +1062,7 @@ async function draftSignal(id, mode='urgent', event){
       sig.status='drafted';
     }
     if(rz) rz.innerHTML=buildReplyZone(id, sig?.ai_reply||d.reply, sig?.ai_dm||'', sig?.reply_variants||{});
-    toast('Reply drafted! Choose a mode and copy.','success');
+    toast('Reply drafted! Choose mode and copy.','success');
   }catch(e){
     if(rz) rz.innerHTML=`<div style="color:var(--red);font-size:12px">Error generating reply.</div>`;
   }
@@ -889,7 +1073,7 @@ async function draftAllModes(id, event){
   const sc=document.getElementById('sc-'+id);
   sc?.classList.add('expanded');
   const rz=document.getElementById('rz-'+id);
-  if(rz){rz.style.display='block';rz.innerHTML=`<div class="rz-label"><i class="fa-solid fa-robot"></i>Generating all 5 modes…</div><div class="spinner"></div>`;}
+  if(rz){rz.style.display='block';rz.innerHTML=`<div class="rz-label"><i class="fa-solid fa-robot"></i>Generating all 5 modes… <div class="spinner spinner-sm" style="display:inline-block"></div></div>`;}
   try{
     const r=await fetch(`/api/signals/${id}/draft-all-modes`,{method:'POST'});
     const d=await r.json();
@@ -910,7 +1094,7 @@ function copyReply(id, event){
     const btn=document.getElementById(`copyBtn-${id}`);
     if(btn){btn.classList.add('copied-btn');btn.innerHTML='<i class="fa-solid fa-check"></i>Copied!';}
     setTimeout(()=>{if(btn){btn.classList.remove('copied-btn');btn.innerHTML='<i class="fa-solid fa-copy"></i>Copy Reply';}},2500);
-    toast('Reply copied — paste it on Reddit now!','success');
+    toast('Reply copied — paste on Reddit!','success');
   });
 }
 
@@ -949,7 +1133,7 @@ async function setReplied(id, replied, event){
   if(sig) sig.replied_to=replied;
   renderSignals();loadStats();
   if(replied===true) toast('Logged as replied ✓','success');
-  else if(replied===false) toast('Logged as no reply','info');
+  else if(replied===false) toast('Logged — no reply','info');
 }
 
 async function deleteSignal(id, event){
@@ -970,14 +1154,9 @@ async function scanDemo(){
   await loadSignals();
 }
 async function scanReddit(){
-  toast('Scanning Reddit for student signals…','info');
+  toast('Scanning Reddit RSS (no API key needed)… this takes ~20 seconds.','info');
   await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sources:['reddit']})});
-  setTimeout(()=>{loadSignals();checkCaps();},4000);
-}
-async function scanTwitter(){
-  toast('Scanning Twitter/X…','info');
-  await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sources:['twitter']})});
-  setTimeout(()=>{loadSignals();checkCaps();},4000);
+  setTimeout(async ()=>{await loadSignals();checkCaps();toast('Reddit scan complete!','success');},22000);
 }
 async function draftAll(){
   toast('Generating AI drafts for all new signals…','info');
@@ -992,10 +1171,140 @@ async function pollScan(){
     const dot=document.getElementById('scanDot');
     const txt=document.getElementById('scanText');
     const lst=document.getElementById('scanLast');
-    if(s.running){dot.classList.add('scanning');txt.textContent='Scanning…';}
-    else{dot.classList.remove('scanning');txt.textContent=s.mode==='live'?'Live scanning active':'Demo mode active';}
-    if(s.last_run) lst.textContent='Last scan: '+timeAgo(s.last_run)+` (${s.last_count} new)`;
+    if(s.running){dot.classList.add('scanning');txt.textContent='Scanning Reddit…';}
+    else{dot.classList.remove('scanning');txt.textContent='Ready — RSS always works';}
+    if(s.last_run) lst.textContent='Last: '+timeAgo(s.last_run)+` (${s.last_count} new)`;
   }catch(e){}
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  HUNT MODE — REDDIT URL PASTE
+// ════════════════════════════════════════════════════════════════════════════
+async function pasteRedditUrl(){
+  const url=document.getElementById('redditUrlInput').value.trim();
+  if(!url){toast('Paste a Reddit URL first','error');return;}
+  const btn=document.getElementById('pasteBtn');
+  btn.disabled=true;btn.innerHTML='<div class="spinner spinner-sm"></div>Fetching…';
+  const res=document.getElementById('pasteResult');
+  res.innerHTML='<div style="color:var(--muted)">Fetching post…</div>';
+  try{
+    const r=await fetch('/api/scrape_reddit_url',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})});
+    const d=await r.json();
+    if(d.ok && d.signal){
+      const sig=d.signal;
+      ALL_SIGNALS=[sig,...ALL_SIGNALS.filter(s=>s.id!==sig.id)];
+      res.innerHTML=`<div style="background:rgba(63,185,80,.1);border:1px solid rgba(63,185,80,.3);border-radius:8px;padding:10px">
+        <div style="font-size:12px;font-weight:700;color:var(--green)">✅ Added! Score: 🔥${sig.urgency_score} · ${sig.detected_service} · ${sig.suggested_price}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px">${esc(sig.title.substring(0,100))}</div>
+        <div style="margin-top:8px;display:flex;gap:7px">
+          <button class="btn btn-primary btn-sm" onclick="draftAllModes('${sig.id}',event)"><i class="fa-solid fa-robot"></i>Generate All 5 Replies</button>
+          <button class="btn btn-secondary btn-sm" onclick="showPage('signals')"><i class="fa-solid fa-signal"></i>View in Signals</button>
+        </div>
+      </div>`;
+      document.getElementById('redditUrlInput').value='';
+      renderSignals();
+    } else {
+      res.innerHTML=`<div style="color:var(--orange);font-size:12px">⚠️ ${d.error||'Could not fetch post. Reddit may have blocked server-side requests.'}</div>`;
+    }
+  }catch(e){
+    res.innerHTML=`<div style="color:var(--red);font-size:12px">Error: ${e.message}</div>`;
+  }
+  btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-bolt"></i>Fetch Post';
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  HUNT MODE — MANUAL SIGNAL ADD
+// ════════════════════════════════════════════════════════════════════════════
+async function addManualSignal(){
+  const title=document.getElementById('manualTitle').value.trim();
+  const body =document.getElementById('manualBody').value.trim();
+  const url  =document.getElementById('manualUrl').value.trim()||'#';
+  const src  =document.getElementById('manualSource').value;
+  if(!title){toast('Title is required','error');return;}
+  const btn=document.getElementById('addManualBtn');
+  btn.disabled=true;btn.innerHTML='<div class="spinner spinner-sm"></div>Adding…';
+  const res=document.getElementById('manualResult');
+  try{
+    const r=await fetch('/api/signals/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,body,url,source:src})});
+    const d=await r.json();
+    if(d.ok && d.signal){
+      const sig=d.signal;
+      ALL_SIGNALS=[sig,...ALL_SIGNALS];
+      // Auto-draft all modes
+      fetch(`/api/signals/${sig.id}/draft-all-modes`,{method:'POST'}).then(async r2=>{
+        const d2=await r2.json();
+        const idx=ALL_SIGNALS.findIndex(s=>s.id===sig.id);
+        if(idx>-1){ALL_SIGNALS[idx].reply_variants=d2.variants;ALL_SIGNALS[idx].ai_reply=d2.variants.urgent;ALL_SIGNALS[idx].ai_dm=d2.variants.dm;}
+      });
+      res.innerHTML=`<div style="background:rgba(63,185,80,.1);border:1px solid rgba(63,185,80,.3);border-radius:8px;padding:10px">
+        <div style="font-size:12px;font-weight:700;color:var(--green)">✅ Added! Score: 🔥${sig.urgency_score} · ${sig.detected_service} · ${sig.suggested_price}</div>
+        <div style="margin-top:8px;display:flex;gap:7px">
+          <button class="btn btn-primary btn-sm" onclick="draftAllModes('${sig.id}',event)"><i class="fa-solid fa-robot"></i>Generate Replies</button>
+          <button class="btn btn-secondary btn-sm" onclick="showPage('signals')">View Signals</button>
+        </div>
+      </div>`;
+      document.getElementById('manualTitle').value='';
+      document.getElementById('manualBody').value='';
+      document.getElementById('manualUrl').value='';
+      renderSignals();
+      toast('Signal added! Generating AI replies…','success');
+    }
+  }catch(e){res.innerHTML=`<div style="color:var(--red);font-size:12px">Error: ${e.message}</div>`;}
+  btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-plus"></i>Add Signal + Generate Replies';
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  HUNT MODE — TWITTER SEARCH LINKS
+// ════════════════════════════════════════════════════════════════════════════
+async function loadTwitterSearchLinks(){
+  try{
+    const links=await(await fetch('/api/twitter_search_urls')).json();
+    const g=document.getElementById('twitterGrid');
+    if(!g) return;
+    g.innerHTML=links.map(l=>`
+      <div class="twitter-card">
+        <div class="twitter-card-q"><i class="fa-brands fa-x-twitter" style="color:var(--text)"></i> "${l.query}"</div>
+        <div class="twitter-card-btns">
+          <a href="${l.url}" target="_blank" class="btn btn-secondary btn-xs"><i class="fa-brands fa-x-twitter"></i>Open Twitter</a>
+          <a href="${l.nitter}" target="_blank" class="btn btn-secondary btn-xs"><i class="fa-solid fa-eye"></i>Nitter (no login)</a>
+        </div>
+      </div>`).join('');
+  }catch(e){}
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  HUNT MODE — WHATSAPP LINK GENERATOR
+// ════════════════════════════════════════════════════════════════════════════
+async function genWhatsApp(){
+  const topic=document.getElementById('waTopicInput').value.trim()||'data science help';
+  try{
+    const r=await fetch(`/api/whatsapp_link?problem=${encodeURIComponent(topic)}`);
+    const d=await r.json();
+    const res=document.getElementById('waResult');
+    res.innerHTML=`<div style="background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.25);border-radius:8px;padding:12px">
+      <div style="font-size:11px;font-weight:700;color:#25d366;margin-bottom:8px">✅ WhatsApp Link Generated</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <input id="waLinkOutput" class="form-input" value="${esc(d.url)}" readonly style="font-size:10px;flex:1" />
+        <button class="btn btn-green btn-sm" onclick="copyText('waLinkOutput')"><i class="fa-solid fa-copy"></i>Copy</button>
+        <a href="${esc(d.url)}" target="_blank" class="btn btn-whatsapp btn-sm"><i class="fa-brands fa-whatsapp"></i>Test</a>
+      </div>
+      <div style="font-size:10px;color:var(--muted);margin-top:6px">Paste this link in your Reddit replies, Discord bio, or anywhere students can click it.</div>
+    </div>`;
+  }catch(e){toast('Error generating link','error');}
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  LANDING PAGE HELPERS
+// ════════════════════════════════════════════════════════════════════════════
+function copyLandingUrl(){
+  navigator.clipboard.writeText('https://stephenmueama.com')
+    .then(()=>toast('Portfolio URL copied!','success'));
+}
+function copyText(id){
+  const el=document.getElementById(id);
+  if(!el) return;
+  const text=el.value||el.textContent;
+  navigator.clipboard.writeText(text).then(()=>toast('Copied!','success'));
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -1004,16 +1313,16 @@ async function pollScan(){
 async function renderHeatmap(){
   try{
     const hm=await(await fetch('/api/heatmap')).json();
-    const vals=Array.from({length:24},(_, i)=>parseInt(hm[String(i)]||0,10));
+    const vals=Array.from({length:24},(_,i)=>parseInt(hm[String(i)]||0,10));
     const max=Math.max(...vals,1);
     const grid=document.getElementById('hmGrid');
     const lbls=document.getElementById('hmLabels');
     if(!grid) return;
     function heatColor(v,m){
-      const ratio=v/m;
-      if(ratio<0.2) return`rgba(63,185,80,${0.15+ratio})`;
-      if(ratio<0.5) return`rgba(210,153,34,${0.4+ratio*0.4})`;
-      return`rgba(248,81,73,${0.5+ratio*0.5})`;
+      const r=v/m;
+      if(r<0.2) return`rgba(63,185,80,${0.15+r})`;
+      if(r<0.5) return`rgba(210,153,34,${0.4+r*0.4})`;
+      return`rgba(248,81,73,${0.5+r*0.5})`;
     }
     const labels=['12a','1a','2a','3a','4a','5a','6a','7a','8a','9a','10a','11a','12p','1p','2p','3p','4p','5p','6p','7p','8p','9p','10p','11p'];
     grid.innerHTML=vals.map((v,i)=>`
@@ -1022,17 +1331,16 @@ async function renderHeatmap(){
         <div class="hm-tooltip">${labels[i]} — ${v} signals</div>
       </div>`).join('');
     lbls.innerHTML=labels.map(l=>`<div class="hm-label">${l}</div>`).join('');
-    // Insights
     const ins=document.getElementById('hmInsights');
     if(ins){
       const sorted=[...vals.map((v,i)=>({h:i,v}))].sort((a,b)=>b.v-a.v);
-      const top3=sorted.slice(0,3).map(x=>`<strong style="color:var(--text)">${labels[x.h]}</strong> (${x.v} signals)`);
+      const top3=sorted.slice(0,3).map(x=>`<strong style="color:var(--text)">${labels[x.h]}</strong> (${x.v})`);
       const worst=sorted.slice(-3).map(x=>labels[x.h]);
       ins.innerHTML=`
-        🔥 <strong style="color:var(--red)">Best times to be online:</strong> ${top3.join(', ')}<br>
-        🌙 <strong style="color:var(--orange)">Sunday 9–11 PM</strong> is historically the highest window — students panic before Monday deadlines.<br>
-        😴 <strong style="color:var(--muted)">Lowest activity:</strong> ${worst.join(', ')} — you can sleep those hours guilt-free.<br>
-        💡 <strong style="color:var(--accent)">Pro tip:</strong> Open the dashboard at 9 PM, scan Reddit, reply to the top 5 hot signals. Takes 15 minutes, can net you $50–200 per session.`;
+        🔥 <strong style="color:var(--red)">Best times:</strong> ${top3.join(', ')}<br>
+        🌙 <strong style="color:var(--orange)">Sunday 9–11 PM</strong> — highest panic window before Monday deadlines.<br>
+        😴 <strong style="color:var(--muted)">Lowest activity:</strong> ${worst.join(', ')}<br>
+        💡 <strong style="color:var(--accent)">Pro tip:</strong> Open this at 9 PM, scan Reddit, reply to the top 5 hot signals. 15 minutes = $50–200/session.`;
     }
   }catch(e){}
 }
@@ -1075,29 +1383,25 @@ async function openSettings(){
   document.getElementById('settingsModal').classList.add('open');
 }
 function closeSettings(){document.getElementById('settingsModal').classList.remove('open');}
-document.getElementById('settingsModal').addEventListener('click',e=>{if(e.target===document.getElementById('settingsModal'))closeSettings();});
-
+document.getElementById('settingsModal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('settingsModal'))closeSettings();
+});
 async function saveSettings(){
   const body={
-    your_name:document.getElementById('sName').value,
-    your_email:document.getElementById('sEmail').value,
-    your_phone:document.getElementById('sPhone').value,
+    your_name:    document.getElementById('sName').value,
+    your_email:   document.getElementById('sEmail').value,
+    your_phone:   document.getElementById('sPhone').value,
     your_portfolio:document.getElementById('sPortfolio').value,
   };
-  const g=document.getElementById('sGroq').value.trim();
+  const g =document.getElementById('sGroq').value.trim();
   const ri=document.getElementById('sRedditId').value.trim();
   const rs=document.getElementById('sRedditSec').value.trim();
-  const tw=document.getElementById('sTwitter').value.trim();
   if(g)  body.groq_api_key=g;
   if(ri) body.reddit_client_id=ri;
   if(rs) body.reddit_client_secret=rs;
-  if(tw) body.twitter_bearer_token=tw;
   const r=await fetch('/api/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(r.ok){
-    closeSettings();
-    toast('Saved! Keys are active immediately — no restart needed.','success');
-    loadProfile();checkCaps();
-  }else toast('Error saving settings','error');
+  if(r.ok){closeSettings();toast('Saved! Works immediately.','success');loadProfile();checkCaps();}
+  else toast('Error saving','error');
 }
 function setValue(id,v){const el=document.getElementById(id);if(el&&v)el.value=v;}
 
@@ -1111,7 +1415,7 @@ function toast(msg, type='info'){
   el.className=`toast ${type}`;
   el.innerHTML=`<i class="fa-solid ${icons[type]}" style="color:${cols[type]}"></i>${msg}`;
   document.getElementById('toasts').appendChild(el);
-  setTimeout(()=>el.remove(),3800);
+  setTimeout(()=>el.remove(),4000);
 }
 </script>
 </body>

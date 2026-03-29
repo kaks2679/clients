@@ -18,6 +18,7 @@ from signal_detector import (
     load_signals, save_signals,
     scan_reddit_live, scan_twitter_live,
     generate_demo_signals, get_stats, load_heatmap,
+    scrape_reddit_url,
 )
 from ai_reply import generate_reply, generate_all_modes, get_offer_card
 
@@ -304,6 +305,87 @@ def api_settings_save():
     ENV_PATH.write_text("\n".join(new_lines) + "\n")
     _reload_env()      # ← push into os.environ immediately, no restart needed
     return jsonify({"ok": True})
+
+
+# ── Reddit URL paste → instant signal ────────────────────────────────────────
+
+@app.route("/api/scrape_reddit_url", methods=["POST"])
+def api_scrape_reddit_url():
+    data = request.get_json() or {}
+    url  = data.get("url", "").strip()
+    if not url:
+        return jsonify({"error": "url required"}), 400
+    result = scrape_reddit_url(url)
+    if "error" in result:
+        return jsonify(result), 400
+    return jsonify({"ok": True, "signal": result})
+
+
+# ── Twitter search URLs (free — no API needed) ────────────────────────────────
+
+TWITTER_SEARCH_QUERIES = [
+    "pandas error deadline",
+    "python homework help due",
+    "thesis help deadline",
+    "data analysis assignment help",
+    "machine learning homework due",
+    "statistics assignment help",
+    "essay deadline help",
+    "jupyter notebook error help",
+    "sklearn help assignment",
+    "csv cleaning help due",
+]
+
+@app.route("/api/twitter_search_urls")
+def api_twitter_search_urls():
+    import urllib.parse
+    urls = []
+    for q in TWITTER_SEARCH_QUERIES:
+        encoded = urllib.parse.quote(q + " -is:retweet lang:en")
+        urls.append({
+            "query": q,
+            "url": f"https://twitter.com/search?q={encoded}&src=typed_query&f=live",
+            "nitter": f"https://nitter.net/search?q={urllib.parse.quote(q)}&f=tweets",
+        })
+    return jsonify(urls)
+
+
+# ── WhatsApp click-to-chat link ───────────────────────────────────────────────
+
+@app.route("/api/whatsapp_link")
+def api_whatsapp_link():
+    _reload_env()
+    phone   = os.getenv("YOUR_PHONE", "+254-740-624-253").replace("-","").replace("+","")
+    problem = request.args.get("problem", "data science or academic writing help")
+    import urllib.parse
+    msg = urllib.parse.quote(
+        f"Hi Steve, I saw your post about {problem}. I need help with my assignment. Can you assist?"
+    )
+    return jsonify({"url": f"https://wa.me/{phone}?text={msg}"})
+
+
+# ── Manual signal add ─────────────────────────────────────────────────────────
+
+@app.route("/api/signals/add", methods=["POST"])
+def api_signal_add():
+    data = request.get_json() or {}
+    title = data.get("title", "").strip()
+    body  = data.get("body",  "").strip()
+    url   = data.get("url",   "#")
+    sub   = data.get("subreddit", "manual")
+    src   = data.get("source",    "manual")
+    if not title:
+        return jsonify({"error": "title required"}), 400
+    from signal_detector import _build_signal, _update_heatmap
+    from datetime import datetime, timezone
+    post = {"title": title, "body": body, "subreddit": sub,
+            "author": "manual", "url": url, "reddit_score": 0,
+            "source": src, "is_demo": False}
+    sig  = _build_signal(post)
+    existing = load_signals()
+    save_signals([sig] + existing)
+    _update_heatmap(datetime.now().hour)
+    return jsonify({"ok": True, "signal": sig})
 
 
 # ── Profile ───────────────────────────────────────────────────────────────────
